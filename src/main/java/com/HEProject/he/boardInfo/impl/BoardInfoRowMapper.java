@@ -19,6 +19,8 @@ public class BoardInfoRowMapper implements RowMapper<BoardInfoVO>{
 		vo.setUsRn(rs.getString("USRN"));
 		vo.setUserName(rs.getString("USERNAME"));
 		vo.setViews(rs.getInt("VIEWS"));
+		vo.setWriteDate(rs.getDate("writeDate"));
+		vo.setFixDate(rs.getDate("fixDate"));
 		return vo;
 	}
 

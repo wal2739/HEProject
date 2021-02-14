@@ -1,6 +1,7 @@
 package com.HEProject.he.boardInfo;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class BoardInfoVO implements Serializable{
 	
@@ -11,12 +12,14 @@ public class BoardInfoVO implements Serializable{
 	private String usRn;
 	private String userName;
 	private int views;
+	private Date writeDate; 
+	private Date fixDate;
 	public BoardInfoVO() {}
 	@Override
 	public String toString() {
 		return "BoardInfoVO [boardCode=" + boardCode + ", boardClass=" + boardClass + ", boardTitle=" + boardTitle
 				+ ", boardContents=" + boardContents + ", usRn=" + usRn + ", userName=" + userName + ", views=" + views
-				+ "]";
+				+ ", writeDate=" + writeDate + ", fixDate=" + fixDate + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -26,9 +29,11 @@ public class BoardInfoVO implements Serializable{
 		result = prime * result + ((boardCode == null) ? 0 : boardCode.hashCode());
 		result = prime * result + ((boardContents == null) ? 0 : boardContents.hashCode());
 		result = prime * result + ((boardTitle == null) ? 0 : boardTitle.hashCode());
+		result = prime * result + ((fixDate == null) ? 0 : fixDate.hashCode());
 		result = prime * result + ((usRn == null) ? 0 : usRn.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		result = prime * result + views;
+		result = prime * result + ((writeDate == null) ? 0 : writeDate.hashCode());
 		return result;
 	}
 	@Override
@@ -57,6 +62,11 @@ public class BoardInfoVO implements Serializable{
 				return false;
 		} else if (!boardTitle.equals(other.boardTitle))
 			return false;
+		if (fixDate == null) {
+			if (other.fixDate != null)
+				return false;
+		} else if (!fixDate.equals(other.fixDate))
+			return false;
 		if (usRn == null) {
 			if (other.usRn != null)
 				return false;
@@ -68,6 +78,11 @@ public class BoardInfoVO implements Serializable{
 		} else if (!userName.equals(other.userName))
 			return false;
 		if (views != other.views)
+			return false;
+		if (writeDate == null) {
+			if (other.writeDate != null)
+				return false;
+		} else if (!writeDate.equals(other.writeDate))
 			return false;
 		return true;
 	}
@@ -112,6 +127,18 @@ public class BoardInfoVO implements Serializable{
 	}
 	public void setViews(int views) {
 		this.views = views;
+	}
+	public Date getWriteDate() {
+		return writeDate;
+	}
+	public void setWriteDate(Date writeDate) {
+		this.writeDate = writeDate;
+	}
+	public Date getFixDate() {
+		return fixDate;
+	}
+	public void setFixDate(Date fixDate) {
+		this.fixDate = fixDate;
 	}
 	
 	

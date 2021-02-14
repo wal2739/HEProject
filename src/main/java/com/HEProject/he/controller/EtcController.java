@@ -28,6 +28,12 @@ public class EtcController {
 		return mav;
 	}
 	
+	@RequestMapping("etcForAss.do")
+	public ModelAndView etcForAss(ModelAndView mav,HttpServletRequest request,HttpSession session) {
+		mav.setViewName("etcForAss.jsp");
+		return mav;
+	}
+	
 	@RequestMapping("freeBoard.do")
 	public ModelAndView freeBoard(ModelAndView mav,HttpServletRequest request,HttpSession session) {
 		mav.addObject("list",boardInfoService.getAllBoard());
@@ -46,5 +52,29 @@ public class EtcController {
 	public String insertBoardForFreeAct(BoardInfoVO vo,HttpServletRequest request,HttpSession session) {
 		boardInfoService.insertBoard(vo, request, session);
 		return "insertBoardForFree.do";
+	}
+	
+	@RequestMapping("getBoard.do")
+	public ModelAndView getBoard(ModelAndView mav,BoardInfoVO vo,HttpServletRequest request,HttpSession session) {
+		mav.addObject("vo", boardInfoService.getBoard(vo, request, session));
+		mav.setViewName("getBoard.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("checkIdForModify.do")
+	public String checkIdForModify(BoardInfoVO vo,HttpServletRequest request,HttpSession session) {
+		return boardInfoService.checkIdForModify(vo, request, session);
+	}
+	
+	@RequestMapping("modifyBoard.do")
+	public ModelAndView modifyBoard(ModelAndView mav,BoardInfoVO vo,HttpServletRequest request,HttpSession session) {
+		mav.addObject("vo", boardInfoService.getBoard(vo, request, session));
+		mav.setViewName("modifyBoard.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("modifyBoardAct.do")
+	public String modifyBoardAct(BoardInfoVO vo,HttpServletRequest request,HttpSession session) {		
+		return boardInfoService.modifyBoard(vo, request, session);
 	}
 }

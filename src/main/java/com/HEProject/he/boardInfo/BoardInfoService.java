@@ -11,4 +11,10 @@ public interface BoardInfoService {
 	
 	void insertBoard(BoardInfoVO vo,HttpServletRequest request,HttpSession session);
 	
+	BoardInfoVO getBoard(BoardInfoVO vo,HttpServletRequest request,HttpSession session);
+	
+	String checkIdForModify(BoardInfoVO vo,HttpServletRequest request,HttpSession session);
+
+	String modifyBoard(BoardInfoVO vo,HttpServletRequest request,HttpSession session);
+	
 }

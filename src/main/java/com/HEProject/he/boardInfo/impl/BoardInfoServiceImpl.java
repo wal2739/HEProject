@@ -36,6 +36,59 @@ public class BoardInfoServiceImpl implements BoardInfoService{
 			request.setAttribute("insertBoardSF", 0);
 		}
 	}
+
+	@Override
+	public BoardInfoVO getBoard(BoardInfoVO vo, HttpServletRequest request, HttpSession session) {
+		vo.setBoardCode(request.getParameter("boardCode"));
+		int statusNum = Integer.parseInt(request.getParameter("statusNum"));
+		int result = 3;
+		switch (statusNum) {
+		case 0:
+			break;
+		case 1:
+			result = dao.increaseView(vo);
+			switch (result) {
+			case 0:
+				System.err.println("조회수 증가 에러 - impl");
+				break;
+			default:
+				break;
+			}
+		default:
+			break;
+		}
+		
+		return dao.getBoard(vo);
+	}
+
+	@Override
+	public String checkIdForModify(BoardInfoVO vo, HttpServletRequest request, HttpSession session) {
+		String boardCode = request.getParameter("boardCode");
+		vo.setBoardCode(boardCode);
+		String usRn = dao.getBoard(vo).getUsRn();
+		String ssUsRn = (String)session.getAttribute("usRn");
+		if(ssUsRn.equals(usRn)) {
+			return "modifyBoard.do?boardCode=" + boardCode + "&statusNum=0";
+		}else {
+			request.setAttribute("MBCheck", 2);
+			return "getBoard.do?boardCode=" + boardCode + "&statusNum=0";
+		}
+	}
+
+	@Override
+	public String modifyBoard(BoardInfoVO vo, HttpServletRequest request, HttpSession session) {
+		String boardCode = request.getParameter("boardCode");
+		vo.setBoardCode(boardCode);
+		vo.setBoardTitle(request.getParameter("boardTitle"));
+		vo.setBoardContents(request.getParameter("boardContents"));
+		int result = dao.modifyBoard(vo);
+		if(result==1) {
+			request.setAttribute("MBCheck", 1);
+		}else {
+			request.setAttribute("MBCheck", 0);
+		}
+		return "getBoard.do?boardCode=" + boardCode + "&statusNum=0";
+	}
 	
 	
 	
