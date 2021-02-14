@@ -28,5 +28,5 @@ public interface UsersInfoService {
 	
 	public List<SearchInfoVO> getAllEqInfo(SearchInfoVO vo,HttpSession session);
 	
-	public UsersInfoVO getUserInfo(UsersInfoVO vo);
+	public UsersInfoVO getUserInfo(UsersInfoVO vo,HttpSession session);
 }

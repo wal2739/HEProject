@@ -1,0 +1,50 @@
+package com.HEProject.he.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.HEProject.he.boardInfo.BoardInfoService;
+import com.HEProject.he.boardInfo.BoardInfoVO;
+import com.HEProject.he.usersInfo.UsersInfoService;
+import com.HEProject.he.usersInfo.UsersInfoVO;
+
+@Controller
+public class EtcController {
+
+	@Autowired
+	BoardInfoService boardInfoService;
+	
+	@Autowired
+	UsersInfoService usersInfoService;
+	
+	@RequestMapping("etcForIndi.do")
+	public ModelAndView etcForIndi(ModelAndView mav,HttpServletRequest request,HttpSession session) {
+		mav.setViewName("etcForIndi.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("freeBoard.do")
+	public ModelAndView freeBoard(ModelAndView mav,HttpServletRequest request,HttpSession session) {
+		mav.addObject("list",boardInfoService.getAllBoard());
+		mav.setViewName("freeBoard.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("insertBoardForFree.do")
+	public ModelAndView insertBoardForFree(ModelAndView mav,UsersInfoVO vo,HttpServletRequest request,HttpSession session) {
+		mav.addObject("vo",usersInfoService.getUserInfo(vo,session));
+		mav.setViewName("insertBoardForFree.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("insertBoardForFreeAct.do")
+	public String insertBoardForFreeAct(BoardInfoVO vo,HttpServletRequest request,HttpSession session) {
+		boardInfoService.insertBoard(vo, request, session);
+		return "insertBoardForFree.do";
+	}
+}
