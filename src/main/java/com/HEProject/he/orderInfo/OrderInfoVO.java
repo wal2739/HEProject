@@ -1,6 +1,7 @@
 package com.HEProject.he.orderInfo;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class OrderInfoVO implements Serializable{
 	
@@ -11,6 +12,7 @@ public class OrderInfoVO implements Serializable{
 	private String gUsRn;
 	private String sUsRn;
 	private String eqRn;
+	private Date newDate;
 	public OrderInfoVO() {}
 	@Override
 	public String toString() {
@@ -115,7 +117,12 @@ public class OrderInfoVO implements Serializable{
 	public void setEqRn(String eqRn) {
 		this.eqRn = eqRn;
 	}
-	
+	public Date getNewDate() {
+		return newDate;
+	}
+	public void setNewDate(Date newDate) {
+		this.newDate = newDate;
+	}
 	
 	
 	

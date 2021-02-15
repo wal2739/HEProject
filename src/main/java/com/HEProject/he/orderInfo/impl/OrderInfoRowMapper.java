@@ -19,6 +19,7 @@ public class OrderInfoRowMapper implements RowMapper<OrderInfoVO>{
 		vo.setgUsRn(rs.getString("GUSRN"));
 		vo.setsUsRn(rs.getString("SUSRN"));
 		vo.setEqRn(rs.getString("EQRN"));
+		vo.setNewDate(rs.getDate("NEWDATE"));
 		return vo;
 	}
 

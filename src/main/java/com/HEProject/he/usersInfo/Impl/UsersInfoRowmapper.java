@@ -25,6 +25,7 @@ public class UsersInfoRowmapper implements RowMapper<UsersInfoVO>{
 		vo.setUserConsent02(rs.getInt("USERCONSENT02"));
 		vo.setUserConsent03(rs.getInt("USERCONSENT03"));
 		vo.setSt(rs.getInt("ST"));
+		vo.setRegiDate(rs.getDate("REGIDATE"));
 		return vo;
 	}
 	
