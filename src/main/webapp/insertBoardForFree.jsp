@@ -10,6 +10,8 @@
 			classType = "개인 사용자 게시판";
 		}else if(request.getAttribute("boardClassRe").equals("2")){
 			classType = "중계 사용자 게시판";
+		}else if(request.getAttribute("boardClassRe").equals("3")){
+			classType = "공지 게시판";
 		}else {
 			classType = "에러 - classType - jsp";
 		}

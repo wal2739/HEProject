@@ -11,12 +11,15 @@
     		classType = "개인 사용자 게시판";
     	}else if(request.getAttribute("classType").equals(2)){
     		classType = "중계 사용자 게시판";
+    	}else if(request.getAttribute("classType").equals(3)){
+    		classType = "공지 게시판";
     	}else {
     		classType = "에러 - classType - jsp";
     	}
     	int userClass = (Integer)request.getAttribute("nuserClass");
     	String backPath = "";
-    	if(userClass==1){
+    	if(userClass==0){
+    	}else if(userClass==1){
     		backPath = "etcForIndi.do";
     	}else if(userClass==2){
     		backPath = "etcForAss.do";
@@ -43,7 +46,21 @@
 		text-align: center;
 	}
 </style>
-<body>
+<script type="text/javascript">
+	function checkNotice() {
+		var typeClass = <%=request.getAttribute("classType")%>;
+		var classUser = <%=userClass%>;
+		if(typeClass==3){
+			if(classUser==0){
+				document.getElementById("myBoardBtn").style.display = "none";	
+			}else {
+				document.getElementById("writeBoardBtn").style.display = "none";	
+				document.getElementById("myBoardBtn").style.display = "none";	
+			}
+		}
+	}
+</script>
+<body onload="checkNotice();">
 	<h1><%=classType %></h1>
 	<div>
 		
@@ -72,8 +89,8 @@
 			<%} %>
 		
 	</div>
-	<input type="button" value="글 쓰기" onclick="location.href='insertBoardForFree.do?boardClass=<%=request.getAttribute("classType")%>'"/>
-	<input type="button" value="내 게시물"/>
+	<input type="button" id="writeBoardBtn" name="writeBoardBtn" value="글 쓰기" onclick="location.href='insertBoardForFree.do?boardClass=<%=request.getAttribute("classType")%>'"/>
+	<input type="button" id="myBoardBtn" name="myBoardBtn" value="내 게시물"/>
 	<input type="button" value="뒤로가기" onclick="location.href='<%=backPath%>'"/>
 	<div>
 		<!-- 글 검색 기능 추가 -->

@@ -34,12 +34,12 @@ public class EtcController {
 		return mav;
 	}
 	
-	@RequestMapping("freeBoard.do")
-	public ModelAndView freeBoard(ModelAndView mav,HttpServletRequest request,HttpSession session) {
-		mav.addObject("list",boardInfoService.getAllBoard());
-		mav.setViewName("freeBoard.jsp");
-		return mav;
-	}
+//	@RequestMapping("freeBoard.do")
+//	public ModelAndView freeBoard(ModelAndView mav,HttpServletRequest request,HttpSession session) {
+//		mav.addObject("list",boardInfoService.getAllBoard());
+//		mav.setViewName("freeBoard.jsp");
+//		return mav;
+//	} 사용 안함
 	
 	@RequestMapping("insertBoardForFree.do")
 	public ModelAndView insertBoardForFree(ModelAndView mav,UsersInfoVO vo,HttpServletRequest request,HttpSession session) {

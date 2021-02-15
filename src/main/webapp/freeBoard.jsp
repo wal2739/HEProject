@@ -1,3 +1,5 @@
+<%-- 
+		@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@[사용 안함]@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 <%@page import="java.util.List"%>
 <%@page import="com.HEProject.he.boardInfo.BoardInfoVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -54,4 +56,4 @@
 		<!-- 글 검색 기능 추가 -->
 	</div>
 </body>
-</html>
+</html> --%>

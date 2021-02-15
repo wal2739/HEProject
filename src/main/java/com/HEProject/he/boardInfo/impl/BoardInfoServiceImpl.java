@@ -106,6 +106,8 @@ public class BoardInfoServiceImpl implements BoardInfoService{
 			request.setAttribute("classType", 1);
 		}else if(boardClassNum==2){
 			request.setAttribute("classType", 2);
+		}else if(boardClassNum==3){
+			request.setAttribute("classType", 3);
 		}else {
 			request.setAttribute("classType", 9);
 		}

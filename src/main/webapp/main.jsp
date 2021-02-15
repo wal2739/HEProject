@@ -52,7 +52,7 @@
 	<%if(userClassData.equals(1)){ %><h2>개인 사용자 화면</h2><a href="RegiForIndividual.do">등록</a><br /><a href="workMainForIndi.do">작업</a><br /><a href="#">정산</a><br /><a href="etcForIndi.do">기타</a><%} %>
 	<%if(userClassData.equals(2)){ %><h2>중계/협회 사용자 화면</h2><a href="AssForOption.jsp">설정</a><br /><a href="workMain.do">작업</a><br /><a href="#">정산</a><br /><a href="etcForAss.do">기타</a><%} %>
 	<%if(userClassData.equals(3)){ %><h2>통합 사용자 화면</h2><a href="#">설정</a><br /><a href="#">등록</a><br /><a href="#">작업</a><br /><a href="#">정산</a><br /><a href="">기타</a><%} %>
-	<%if(userClassData.equals(4)){ %><h1>관리자 계정 미구현</h1><%} %>
+	<%if(userClassData.equals(0)){ %><h1>관리자 계정 미구현</h1><a href="eachBoard.do?boardClassNum=3">공지 게시판</a><%} %>
 	<%} %>
 	<br /><a href="#">메세지 페이지로</a>
 </body>
