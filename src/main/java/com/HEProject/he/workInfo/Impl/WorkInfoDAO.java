@@ -94,4 +94,15 @@ public class WorkInfoDAO {
 		}
 	}
 	
+	int cancelWork(WorkInfoVO vo) {
+		String sql = "update workInfo set ST=3 where workCode=? and assusrn=?";
+		try { 
+			jdbcTemplate.update(sql,vo.getWorkCode(),vo.getAssUsRn());
+			return 1;
+		}catch (Exception e) {
+			System.err.println("work DAO 오류 : " + e);
+			return 0;
+		}
+	}
+	
 }

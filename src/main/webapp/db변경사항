@@ -1,0 +1,567 @@
+create table test01(
+    col1 varchar2(20),
+    col2 number(1),
+    col3 varchar2(15),
+    col4 date DEFAULT sysdate,
+    CONSTRAINT pk_double PRIMARY key(col1,col2)
+);
+
+alter table test01 modify (col2 number(5));
+
+insert into test01 values('wal2739',0,'테스트',sysdate);
+insert into test01 values('wal2739',1,'테스트',sysdate);
+insert into test01 values('wal2739',2,'테스트',sysdate);
+/*
+    col2 의 값이 0 이라면 현재 사용중인 아이디.
+    그 외의 값은 현재 사용중이지 않은 아이디.
+    
+    
+*/
+insert into test01 values('wal2739',0,'테스트',sysdate);
+--현재 사용중인 아이디 생성
+update test01 set col2=((select max(col2) from test01 where col1='wal2739')+1) where col1='wal2739';
+--현재 사용중인 아이디를 삭제 했을 경우를 가정하여 해당 아이디 값의 최대값을 가져와 1을 더하여 사용하지 않는 아이디로 변경
+select * from test01 where col2!=0;
+--사용하지 않는 아이디 조회( 데이터 체크 ) 결과 값 : wal2739	1	테스트	20/12/17
+insert into test01 values('wal2739',0,'테스트',sysdate);
+--새로운 사용자가 동일한 아이디를 사용하여 회원가입을 시도
+select * from test01 where col2=0;
+--정상 가입 여부 확인 ( 데이터 체크 ) 결과 값 : wal2739	0	테스트	20/12/17
+update test01 set col2=((select max(col2) from test01 where col1='wal2739')+1) where col1='wal2739';
+--동일 아이디를 한번더 삭제 요청을 했을경우. 에러 값 : ORA-00001: 무결성 제약 조건
+select max(col2) from test01 where col1='wal2739';
+--서브 쿼리 체크. 결과 값 : 1
+select ((select max(col2) from test01 where col1='wal2739')+1) as testData from dual;
+--테스트 쿼리문 작성. 결과 값 : 2
+--에러 원인 확인 : wal2739라는 col1의 데이터값은 현재 2개가 존재함. 조건절에 col2=0 을 붙여야함
+update test01 set col2=((select max(col2) from test01 where col1='wal2739')+1) where col1='wal2739' and col2=0;
+--업데이트 성공
+select * from test01 where col2=0;
+--현재 사용중인 아이디 목록 조회. 결과 값 : -
+select * from test01 where col2!=0;
+--현재 사용중이지 않은 아이디 목록 조회. 결과 값 : wal2739	1	테스트	20/12/17
+                                    --        wal2739	2	테스트	20/12/17
+--테스트 수행 성공, 추가 테스트 진행 
+insert into test01 values('wal2739',0,'테스트',sysdate);
+update test01 set col2=((select max(col2) from test01 where col1='wal2739')+1) where col1='wal2739' and col2=0;
+select * from test01 where col2!=0;
+--추가 테스트 결과 값 : wal2739	1	테스트	20/12/17
+                --    wal2739	2	테스트	20/12/17
+                 --   wal2739	3	테스트	20/12/17 
+                 -- 정상 작동
+
+/*
+    현재 저장되어있는 st 값을 모두 최대 값 99,999으로 변경 (number(5))
+    각 테이블 현황 체크 후 pk 값을 듀얼PK값으로 조정
+    백단 수정
+*/
+
+--테스트에 필요한 구문--
+delete from test01;
+commit;
+
+
+
+
+
+
+변경 사항
+--각 테이블에 rowNum 추가
+alter table boInfo add(BOrownum number(9));
+alter table equipInfo add(EQrownum number(9));
+alter table usersInfo add(userRowNum number(9));
+--clientInfo 테이블 수정 사항
+alter table clientInfo modify(CLIENTCODE number(9));
+alter table clientInfo modify(clientphone varchar2(15));
+alter table clientInfo modify(clientcell varchar2(15));
+--messageInfo 테이블 수정 사항
+alter table MessageInfo modify(messageCode number(9));
+--usersInfo 테이블 임시 데이터 삭제, pk 지정
+delete from usersInfo;
+commit;
+alter table usersInfo drop CONSTRAINT userid_pk;
+alter table usersInfo add constraint userPK primary key(userRowNum, st);
+--boInfo 테이블 임시 데이터 삭제, PK 지정
+delete from boInfo;
+commit;
+alter table boInfo drop constraint bonumber_pk;
+alter table boinfo add constraint boPK primary key(boRowNum, st);
+--equipInfo 테이블 임시 데이터 삭제, PK 지정
+delete from equipInfo;
+commit;
+alter table equipInfo drop constraint EQUIPNUM_PK;
+alter table equipInfo add constraint equipPK primary key(EQROWNUM, st);
+--쓸모 없는 테이블 삭제
+drop table mvcBoard CASCADE CONSTRAINTS;
+--messageInfo 테이블 sUserId 추가
+alter table messageInfo add(sUserID varchar2(20));
+--workersInfo 테이블에 workerCode 와 st 를 PK로 묶음 ( 중복 코드 허용 ) 
+alter table workersInfo drop constraint workerCOde_pk;
+alter table workersInfo add constraint workerPK primary key(workerCode, st);
+
+--FK 설정
+alter table equipInfo add constraint eq_Id_fk FOREIGN key(userId) REFERENCES usersInfo(userId);
+--결과 : 에러--
+
+--데이터 테스트
+create table userTest01(
+    userId varchar2(20) primary key,
+    userPw varchar2(20),
+    st number(5)
+);
+create table workTest01(
+    workCode number(9) primary key,
+    AuserId varchar2(20),
+    BuserId varchar2(20),
+    workInfo varchar(99)
+);
+
+insert into userTest01 values('wal2739','390907qq',1);
+insert into userTest01 values('wal7777','390907qq',1);
+insert into workTest01 values(1,'wal2739','wal7777','작업 요청함');
+commit;
+select * from workTest01 where userid = (select userId from userTest01 where userid='wal7777');
+
+drop table userTest01;
+drop table workTest01;
+
+--DB 초기 상태로 변경
+
+----변경 사항 복원
+alter table usersInfo drop CONSTRAINT userPK;
+alter table boinfo drop CONSTRAINT boPK;
+alter table equipInfo drop CONSTRAINT equipPK;
+alter table boInfo drop COLUMN BOrownum;
+alter table equipInfo drop COLUMN EQrownum;
+alter table usersInfo drop COLUMN userRowNum;
+
+----초기 PK 복원
+alter table usersInfo add CONSTRAINT userId_PK primary key(userId);
+alter table boInfo add constraint boNumber_PK primary key(boNumber);
+alter table equipInfo add constraint eqNumber_PK primary key(equipNum);--pk 설정
+
+--AssInfo 수정
+drop table assInfo cascade CONSTRAINTS;
+create table groupAssInfo(
+    groupCode number(9),
+    groupAss varchar2(20),
+    grouper varchar2(20),
+    st number(5),
+    CONSTRAINT groupCode_PK primary key(groupCode),
+    CONSTRAINT groupAss_FK FOREIGN key(groupAss) REFERENCES usersInfo(userId),
+    CONSTRAINT grouper_FK FOREIGN key(grouper) REFERENCES usersInfo(userId)
+);
+
+--FK 복원
+alter table boInfo add CONSTRAINT userId_fk FOREIGN key(userId) REFERENCES usersInfo(userid);
+alter table boardInfo add CONSTRAINT board_userId_fk FOREIGN key(userId) REFERENCES usersInfo(userid);
+alter table clientInfo add CONSTRAINT client_userId_fk FOREIGN key(userId) REFERENCES usersInfo(userid);
+alter table equipInfo add CONSTRAINT equip_userId_fk FOREIGN key(userId) REFERENCES usersInfo(userid);
+alter table messageInfo add CONSTRAINT message_GuserId_fk FOREIGN key(guserId) REFERENCES usersInfo(userid);
+alter table messageInfo add CONSTRAINT message_SuserId_fk FOREIGN key(suserId) REFERENCES usersInfo(userid);
+alter table orderInfo add CONSTRAINT order_GuserId_fk FOREIGN key(guserId) REFERENCES usersInfo(userid);
+alter table orderInfo add CONSTRAINT order_SuserId_fk FOREIGN key(suserId) REFERENCES usersInfo(userid);
+alter table workersInfo add CONSTRAINT workers_userId_fk FOREIGN key(userId) REFERENCES usersInfo(userid);
+
+alter table workDataInfo add CONSTRAINT workdata_workCode_fk FOREIGN key(workcode) REFERENCES workInfo(workCode);
+alter table workInfo drop CONSTRAINT workcode_PK;
+alter table workInfo add CONSTRAINT workcode_PK primary key(workCode);
+alter table workInfo drop COLUMN asscode;
+alter table workInfo add(assUserId varchar2(20) not null);
+alter table workInfo add(indiUserID varchar2(20));
+alter table workInfo modify(workCode number(9));
+alter table workDataInfo modify(workCode number(9));
+alter table aworkInfo modify(workCode number(9));
+alter table aworkInfo drop CONSTRAINT AWORKINFO_WORKCODE_PK;
+alter table aworkInfo add CONSTRAINT workCode_fk FOREIGN key(workcode) REFERENCES workInfo(workCode);
+
+
+-----뷰 테스트 ------
+create table test01(userId varchar2(20) primary key,userPw varchar2(29),username varchar2(29), userInfo varchar2(20));
+
+insert into test01 values('wal2739','0604','sangwon','사람');
+insert into test01 values('wal7777','0604','sangwon','사람이 필요함');
+
+create table test02(userId varchar2(20),equipment varchar2(20),CONSTRAINT fk FOREIGN key(userId) REFERENCES test01(userId));
+
+insert into test02 values('wal2739','크레인');
+
+select * from test01;
+select a.userId,a.userInfo,b.equipment from test01 a, test02 b where a.userId = b.userId;
+
+create table testWork(assUserId varchar2(20), gUserId varchar2(20),workInfo varchar2(20));
+
+insert into testWork values('wal7777','wal2739','작업을 해야함');
+
+select * from testWork;
+
+commit;
+
+create view testView as select te.assUserId as 의뢰인,te.guserId as 작업자,te.workInfo as 작업내용,(select equipment as 작업차량 from test02 where userId='wal2739' and equipment='크레인') as 작업차량 from testWork te where te.assuserId='wal7777' and te.guserId='wal2739';
+
+select * from testView;
+
+delete from test01 where userid='wal2739';
+
+drop table testWork cascade CONSTRAINTS;
+
+drop view testView;
+
+변경 사항 (롤백)
+--usersInfo 변경 사항
+alter table usersInfo drop CONSTRAINT USERID_PK CASCADE;
+alter table usersInfo add(usRN varchar2(11),constraint usRn_PK primary key(usRN));
+--boInfo 변경 사항
+alter table boInfo drop constraint boNumber_PK;
+alter table boInfo add(boRN varchar2(11),constraint boRn_PK primary key(boRn));
+alter table boInfo drop COLUMN userId;
+alter table boInfo add constraint bo_usRn_FK FOREIGN key(usRn) REFERENCES usersInfo(usRn);
+alter table boInfo drop constraint usRn_fk;
+--equipInfo 변경 사항
+alter table equipInfo drop COLUMN userId;
+alter table equipInfo drop constraint EQNUMBER_PK;
+alter table equipInfo add(eqRn varchar2(11),constraint eqRn_Pk primary key(eqRn));
+alter table equipInfo add(usRn varchar2(11),constraint eq_usRn_FK FOREIGN key(usRn)REFERENCES usersinfo(usRn));
+--groupAssInfo 변경 사항
+alter table groupAssInfo MODIFY(groupcode varchar2(11));
+alter table groupAssInfo drop COLUMN groupAss;
+alter table groupAssInfo drop COLUMN grouper;
+alter table groupAssInfo add(AssUsRn varchar2(11),grUsRn varchar2(11),constraint gr_AssUsRN FOREIGN key(assUsRn) REFERENCES usersInfo(usrn),constraint gr_grUsRn FOREIGN key(grUsRn) REFERENCES usersInfo(usrn));
+--messageInfo 변경 사항
+alter table messageInfo MODIFY(MESSAGECODE varchar2(11));
+alter table messageInfo drop COLUMN GUSERID;
+alter table messageInfo drop COLUMN SUSERID;
+alter table messageInfo add(gUsRn varchar2(11),sUsRn varchar2(11),constraint msg_gUsRn_fk FOREIGN key(gUsRn) REFERENCES usersInfo(usrn),constraint msg_sUsRn_fk FOREIGN key(sUsRn) REFERENCES usersInfo(usrn));
+--orderInfo 변경 사항
+alter table orderInfo MODIFY(orderCode varchar2(11));
+alter table orderInfo drop COLUMN GUSERID;
+alter table orderInfo drop COLUMN SUSERID;
+alter table orderInfo add(gUsRn varchar2(11),sUsRn varchar2(11),constraint ord_gUsRn_fk FOREIGN key(gUsRn) REFERENCES usersInfo(usrn),constraint ord_sUsRn_fk FOREIGN key(sUsRn) REFERENCES usersInfo(usrn));
+--workersInfo 변경 사항
+alter table workersInfo drop COLUMN USERID;
+alter table workersInfo add(usRn varchar2(11),constraint worker_usRn_FK FOREIGN key(usRn)REFERENCES usersinfo(usRn));
+/*
+    WorkInfo 에 assUserId,IndiUserId 삭제 및 AssUsRn, indiUsRn 추가 및 FK 지정
+    
+    WorkInfo 에 workersData 컬럼 추가 및 본인 혹은 
+                    대리 작업자 코드 입력 가능하게 만듦
+    
+    WorkInfo 에 equipNum 컬럼 추가 및 FK 설정
+    
+    workInfo 에 usRN 추가 및 FK 지정
+*/
+--workInfo 변경 사항
+alter table workInfo drop COLUMN assUserId;
+alter table workInfo drop COLUMN IndiUserId;
+alter table workInfo add(AssUsRn varchar2(11),indiUsRn varchar2(11),workersData varchar2(14),eqrn varchar2(11),constraint work_AssUsRn_fk FOREIGN key(AssUsRn) REFERENCES usersInfo(usrn),constraint work_indiUsRn_fk FOREIGN key(indiUsRn) REFERENCES usersInfo(usrn), constraint work_eqrn_fk FOREIGN key(eqrn) REFERENCES equipInfo(eqrn));
+alter table workInfo modify(workCode varchar2(11)); 
+
+
+--aworkInfo 변경 사항
+alter table aworkInfo modify(workcode varchar2(11));
+alter table aworkInfo add CONSTRAINT aWork_workCode_fk FOREIGN key(workcode) references workInfo(workcode);
+--workdataInfo 변경 사항
+alter table workDataInfo drop constraint workdata_workcode_fk;
+alter table workdataInfo modify(workCode varchar2(11));
+alter table workdataInfo add CONSTRAINT WDI_workCode_fk FOREIGN key(workcode) references workInfo(workcode);
+--orderInfo 변경 사항
+alter table orderInfo modify(workCode varchar2(11));
+alter table orderInfo add CONSTRAINT ord_workCode_fk FOREIGN key(workcode) references workInfo(workcode);
+--clientInfo 변경 사항
+alter table clientInfo modify(CLIENTCODE varchar2(11));
+alter table clientInfo drop COLUMN USERID;
+alter table clientInfo add(usRn varchar2(11));
+alter table clientInfo add constraint cli_usRn_FK FOREIGN key(usRn)REFERENCES usersinfo(usRn);
+--boardInfo 변경 사항
+alter table boardInfo drop COLUMN userId;
+alter table boardInfo modify(boardCode varchar2(11));
+alter table boardInfo add(usRn varchar2(11), constraint brd_usRn_FK FOREIGN key(usRn)REFERENCES usersinfo(usRn));
+
+
+delete from equipInfo cascade;
+delete from boInfo cascade;
+delete from usersInfo cascade;
+commit;
+
+
+변경 사항 템플릿
+개인 유저 코드 = I000000001
+중계 유저 코드 = A000000001
+통합 유저 코드 = L000000001
+장비 코드 = E000000001
+작업 코드 = W000000001
+사업자 정보 코드 = B000000001
+그룹 코드 = G000000001
+메시지 코드 = M000000001
+클라이언트 코드 = C000000001
+발주 코드 = O000000001
+게시판 코드 = N000000001
+--중계 사용자 시퀀스
+CREATE SEQUENCE AuserRn_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--개인 사용자 시퀀스
+CREATE SEQUENCE IuserRn_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--장비 코드 시퀀스
+CREATE SEQUENCE EQRn_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--작업 코드 시퀀스
+CREATE SEQUENCE workCode_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--사업자 코드 시퀀스
+CREATE SEQUENCE BORn_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--그룹 코드 시퀀스
+CREATE SEQUENCE GrRn_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--메세지 코드 시퀀스
+CREATE SEQUENCE MsRn_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--작업 코드 시퀀스
+CREATE SEQUENCE clientCode_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--발주 코드 시퀀스
+CREATE SEQUENCE orderCode_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--게시판 코드 시퀀스
+CREATE SEQUENCE BoardCode_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--게시판 조회 시퀀스
+CREATE SEQUENCE boardView_sq
+INCREMENT BY 1
+START WITH 0
+MINVALUE 0
+MAXVALUE 999999999
+NOCYCLE;
+--코드 생성 시퀀스
+LPAD(LPAD(auserrn_sq.nextVal, '8', '0'),'9','N')
+
+--boInfo 테이블 수정 사항
+alter table boInfo add(tob01 varchar2(30) not null,tob02 varchar2(30) not null,cpName varchar2(45));
+alter table boInfo MODIFY(cpName varchar2(45) not null);
+--messageInfo 테이블 수정 사항
+ALTER TABLE messageInfo add(wMsg number(1) not null);--메시지 구분 컬럼 추가
+create view msgInfo as select msg.*,uInfo.userid,uInfo.username from messageinfo msg, usersInfo uInfo where msg.susrn = uInfo.usrn; --메시지와 사용자 정보를 취합한 뷰 생성
+create view searchInfo as select uinfo.usrn,uinfo.username,einfo.equiptype,einfo.equipclass,einfo.equipoption from usersInfo uInfo, equipInfo eInfo where uInfo.usrn = einfo.usrn;-- 유저 검색 시 차량과 유저의 이름까지의 데이터를 담음
+
+alter table workInfo add (RELATIVE	VARCHAR2(120 BYTE));
+
+alter table workInfo add (workDate	date DEFAULT sysdate); --workInfo 컬럼 추가
+alter table workInfo add (RELATIVE	VARCHAR2(120 BYTE));
+alter table workInfo add (workDate	date DEFAULT sysdate);
+alter table workInfo modify WORKAMOUNT varchar2(11);
+alter table workInfo modify WORKTIME varchar2(6);
+alter table workInfo modify CLIENTCODE	VARCHAR2(11 BYTE);
+alter table workInfo modify FIELDMANAGERPHONE VARCHAR2(15 BYTE);
+alter table workInfo modify FIELDMANAGERCELL VARCHAR2(15 BYTE);
+alter table workInfo add CONSTRAINT work_clientCode_fk FOREIGN key(CLIENTCODE) references CLIENTinfo(CLIENTCODE);--workInfo 테이블 변경
+alter table clientInfo drop CONSTRAINT CLIENTCODE_PK;
+alter table clientInfo add CONSTRAINT CLIENTCODE_PK primary key(clientCode);--clientCode pk 설정이 잘 못 되어있었음 . 수정
+
+--뷰 생성 전 테스트 코드
+select uInfo.userId,uInfo.userName,wInfo.*,bInfo.BONAME,bInfo.CPNAME,cinfo.clientcpname clientCpName,cinfo.clientmanager clientManager,cinfo.clientphone clientPhone
+from workInfo wInfo, usersInfo uInfo, boInfo bInfo,clientInfo cInfo
+where wInfo.st=0 and winfo.assusrn=uInfo.usrn and winfo.assusrn=binfo.usrn and winfo.clientCode=cinfo.clientCode;
+
+select uInfo.userId assUserId ,uInfo.userName assUserName,wInfo.*,bInfo.BONAME assBoName,bInfo.CPNAME assCpName,uInfo02.userId indiUserId ,uInfo02.userName indiUserName,bInfo02.BONAME indiBoName,bInfo02.CPNAME indiCpName, eInfo.equipNum,eInfo.EQUIPTYPE,eInfo.EQUIPCLASS,eInfo.EQUIPOPTION,cinfo.clientcpname clientCpName,cinfo.clientmanager clientManager,cinfo.clientphone clientPhone 
+from workInfo wInfo, usersInfo uInfo, usersInfo uInfo02 , boInfo bInfo,boInfo bInfo02, equipinfo eInfo, clientInfo cInfo
+where wInfo.st=1 and winfo.assusrn=uInfo.usrn and winfo.assusrn=binfo.usrn and winfo.indiusrn=uInfo02.usrn and winfo.indiusrn=bInfo02.usrn and winfo.indiusrn=einfo.usrn and winfo.clientCode=cinfo.clientCode;
+
+--work_st0 뷰 생성
+create view work_st0 as 
+select uInfo.userId,uInfo.userName,wInfo.*,bInfo.BONAME,bInfo.CPNAME,cinfo.clientcpname clientCpName,cinfo.clientmanager clientManager,cinfo.clientphone clientPhone
+from workInfo wInfo, usersInfo uInfo, boInfo bInfo,clientInfo cInfo
+where wInfo.st=0 and winfo.assusrn=uInfo.usrn and winfo.assusrn=binfo.usrn and winfo.clientCode=cinfo.clientCode;
+--work_st1 뷰 생성
+create view work_st1 as select uInfo.userId assUserId ,uInfo.userName assUserName,wInfo.*,bInfo.BONAME assBoName,bInfo.CPNAME assCpName,uInfo02.userId indiUserId ,uInfo02.userName indiUserName,bInfo02.BONAME indiBoName,bInfo02.CPNAME indiCpName, eInfo.equipNum,eInfo.EQUIPTYPE,eInfo.EQUIPCLASS,eInfo.EQUIPOPTION,cinfo.clientcpname clientCpName,cinfo.clientmanager clientManager,cinfo.clientphone clientPhone 
+from workInfo wInfo, usersInfo uInfo, usersInfo uInfo02 , boInfo bInfo,boInfo bInfo02, equipinfo eInfo, clientInfo cInfo
+where wInfo.st=1 and winfo.assusrn=uInfo.usrn and winfo.assusrn=binfo.usrn and winfo.indiusrn=uInfo02.usrn and winfo.indiusrn=bInfo02.usrn and winfo.indiusrn=einfo.usrn and winfo.clientCode=cinfo.clientCode;
+
+--workInfo 에 필요차량 컬럼 추가
+alter table workInfo add RV varchar2(21);
+--기존 뷰 삭제
+drop view work_st0;
+drop view work_st1;
+--work_st0 뷰 재생성
+create view work_st0 as 
+select uInfo.userId,uInfo.userName,wInfo.*,bInfo.BONAME,bInfo.CPNAME,cinfo.clientcpname clientCpName,cinfo.clientmanager clientManager,cinfo.clientphone clientPhone
+from workInfo wInfo, usersInfo uInfo, boInfo bInfo,clientInfo cInfo
+where wInfo.st=0 and winfo.assusrn=uInfo.usrn and winfo.assusrn=binfo.usrn and winfo.clientCode=cinfo.clientCode;
+--work_st1 뷰 재생성
+create view work_st1 as select uInfo.userId assUserId ,uInfo.userName assUserName,wInfo.*,bInfo.BONAME assBoName,bInfo.CPNAME assCpName,uInfo02.userId indiUserId ,uInfo02.userName indiUserName,bInfo02.BONAME indiBoName,bInfo02.CPNAME indiCpName, eInfo.equipNum,eInfo.EQUIPTYPE,eInfo.EQUIPCLASS,eInfo.EQUIPOPTION,cinfo.clientcpname clientCpName,cinfo.clientmanager clientManager,cinfo.clientphone clientPhone 
+from workInfo wInfo, usersInfo uInfo, usersInfo uInfo02 , boInfo bInfo,boInfo bInfo02, equipinfo eInfo, clientInfo cInfo
+where wInfo.st=1 and winfo.assusrn=uInfo.usrn and winfo.assusrn=binfo.usrn and winfo.indiusrn=uInfo02.usrn and winfo.indiusrn=bInfo02.usrn and winfo.indiusrn=einfo.usrn and winfo.clientCode=cinfo.clientCode;
+-- orderInfo_status2 뷰 생성
+create view orderInfo_status2 as select uInfo.userId,uInfo.userName,wInfo.WORKCODE,
+wInfo.CLIENTCODE,
+wInfo.WORKFIELD,
+wInfo.FIELDMANAGER,
+wInfo.FIELDMANAGERPHONE,
+wInfo.FIELDMANAGERCELL,
+wInfo.FIELDMANAGERMAIL,
+wInfo.FIELDADD01,
+wInfo.FIELDADD02,
+wInfo.WORKAMOUNT,
+wInfo.WORKTIME,
+wInfo.WORKREQUESTS,
+wInfo.ST,
+wInfo.ASSUSRN,
+wInfo.WORKDATE,
+wInfo.RV,
+winfo.relative,
+oinfo.eqrn,
+oinfo.gusrn,
+oinfo.appstatus,
+uinfo.usercell,
+cinfo.clientcpname clientCpName,cinfo.clientmanager clientManager,cinfo.clientphone clientPhone,
+einfo.equipoption,
+einfo.equiptype,
+einfo.equipclass,
+oinfo.ordercode
+from workInfo wInfo, usersInfo uInfo,clientInfo cInfo, orderInfo oInfo, equipinfo eInfo
+where wInfo.st=0 and winfo.clientCode=cinfo.clientCode and winfo.workcode=oInfo.workCode and oinfo.gusrn=uinfo.usrn and oinfo.eqrn=einfo.eqrn and oinfo.appstatus=2;
+--orderInfo 수정
+alter table orderInfo add eqRn VARCHAR2(11 BYTE);
+alter table orderInfo add  CONSTRAINT eqRn_fk foreign key(eqrn) REFERENCES equipInfo(eqrn);
+-- orderInfoForIndi 뷰 생성
+create view orderInfoForIndi as select uInfo.userId,uInfo.userName,wInfo.WORKCODE,
+wInfo.CLIENTCODE,
+wInfo.WORKFIELD,
+wInfo.FIELDMANAGER,
+wInfo.FIELDMANAGERPHONE,
+wInfo.FIELDMANAGERCELL,
+wInfo.FIELDMANAGERMAIL,
+wInfo.FIELDADD01,
+wInfo.FIELDADD02,
+wInfo.WORKAMOUNT,
+wInfo.WORKTIME,
+wInfo.WORKREQUESTS,
+wInfo.ST,
+wInfo.ASSUSRN,
+wInfo.WORKDATE,
+wInfo.RV,
+winfo.relative,
+oinfo.eqrn,
+oinfo.gusrn,
+oinfo.appstatus,
+uinfo.usercell,
+cinfo.clientcpname clientCpName,cinfo.clientmanager clientManager,cinfo.clientphone clientPhone,
+einfo.equipoption,
+einfo.equiptype,
+einfo.equipclass,
+einfo.equipnum,
+oinfo.ordercode,
+binfo.cpname,
+binfo.bophone
+from workInfo wInfo, usersInfo uInfo,clientInfo cInfo, orderInfo oInfo, equipinfo eInfo, boInfo bInfo
+where wInfo.st=0 and winfo.clientCode=cinfo.clientCode and winfo.workcode=oInfo.workCode and oinfo.susrn=uinfo.usrn and oinfo.eqrn=einfo.eqrn and oinfo.susrn=binfo.usrn and oinfo.appstatus=2;
+--게시판 관련 변경
+alter table boardInfo add userName VARCHAR2(21 BYTE) not null;
+alter table boardInfo add writeDate date DEFAULT sysdate;
+alter table boardInfo add views number(7) DEFAULT 0 not null ;
+alter table boardInfo add writeDate date DEFAULT sysdate;
+alter table boardInfo add fixDate date DEFAULT sysdate;
+--게시판 댓글 테이블 생성 (임시)
+create table cmtInfo(
+    cmtCode varchar2(11),
+    boardCode varchar2(11),
+    cmtDate date DEFAULT sysdate not null,
+    cmtContent varchar2(450) not null,
+    CONSTRAINT cmtCode_pk PRIMARY key(cmtCode),
+    CONSTRAINT boardCode_fk FOREIGN key(boardCode) REFERENCES boardInfo(boardCode)
+);
+
+--work_st1 뷰 수정
+create view work_st1 as select 
+test01.*,
+test02.INDIUSRN,
+test02.WORKERSDATA,
+test02.EQRN,
+test02.INDIUSERNAME,
+test02.INDIUSERID,
+test02.INDIBONAME,
+test02.INDICPNAME,
+test02.EQUIPNUM,
+test02.EQUIPTYPE,
+test02.EQUIPCLASS,
+test02.EQUIPOPTION
+from (select uInfo.userId ASSUSERID,
+uInfo.userName ASSUSERNAME,
+wInfo.WORKCODE,
+wInfo.CLIENTCODE,
+wInfo.WORKFIELD,
+wInfo.FIELDMANAGER,
+wInfo.FIELDMANAGERPHONE,
+wInfo.FIELDMANAGERCELL,
+wInfo.FIELDMANAGERMAIL,
+wInfo.FIELDADD01,
+wInfo.FIELDADD02,
+wInfo.WORKAMOUNT,
+wInfo.WORKTIME,
+wInfo.WORKREQUESTS,
+wInfo.ST,
+wInfo.ASSUSRN,
+wInfo.RELATIVE,
+wInfo.WORKDATE,
+wInfo.RV,
+bInfo.BONAME ASSBONAME,
+bInfo.CPNAME ASSCPNAME,
+cinfo.clientcpname clientCpName,
+cinfo.clientmanager clientManager,
+cinfo.clientphone clientPhone
+from workInfo wInfo, usersInfo uInfo, boInfo bInfo,clientInfo cInfo
+where wInfo.st=1 and winfo.assusrn=uInfo.usrn and winfo.assusrn=binfo.usrn and winfo.clientCode=cinfo.clientCode) test01,(select 
+wInfo.workCode,
+wInfo.INDIUSRN,
+wInfo.WORKERSDATA,
+wInfo.EQRN,
+uInfo.username INDIUSERNAME,
+uInfo.userId INDIUSERID,
+bInfo.boName INDIBONAME,
+bInfo.cpname INDICPNAME,
+eInfo.EQUIPNUM,
+eInfo.EQUIPTYPE,
+eInfo.EQUIPCLASS,
+eInfo.EQUIPOPTION
+from workInfo wInfo,usersInfo uInfo,boInfo bInfo,equipinfo eInfo where wInfo.indiusrn=uinfo.usrn and winfo.eqrn=einfo.eqrn and winfo.indiusrn=binfo.usrn and wInfo.st=1) test02 where test01.workcode=test02.workcode;
+
