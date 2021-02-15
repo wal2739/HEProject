@@ -55,4 +55,35 @@ public class UsersController {
 		return workersInfoService.loginWorker(vo, request,session);
 	}
 	
+	@RequestMapping("myPage.do")
+	public ModelAndView myPage(ModelAndView mav,UsersInfoVO vo,HttpServletRequest request,HttpSession session) {
+		mav.addObject("vo",usersInfoService.getUserInfo(vo, session));
+		mav.setViewName("myPage.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("checkIdentity.do")
+	public ModelAndView checkIdentity(ModelAndView mav,UsersInfoVO vo,HttpServletRequest request,HttpSession session) {
+		mav.setViewName("checkIdentity.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("checkIdentityAct.do")
+	public String checkIdentityAct(UsersInfoVO vo,HttpServletRequest request,HttpSession session) {
+		usersInfoService.pwCheck(vo, session, request);
+		return "checkIdentity.do";
+	}
+	
+	@RequestMapping("modifyUserInfo.do")
+	public ModelAndView modifyUserInfo(ModelAndView mav,UsersInfoVO vo,HttpServletRequest request,HttpSession session) {
+		mav.addObject("vo",usersInfoService.getUserInfo(vo, session));
+		mav.setViewName("modifyUserInfo.jsp");
+		return mav;
+	}
+	@RequestMapping("modifyUserInfoAct.do")
+	public ModelAndView modifyUserInfoAct(ModelAndView mav,UsersInfoVO vo,HttpServletRequest request,HttpSession session) {
+		usersInfoService.modifyUserInfo(vo, session, request);
+		mav.setViewName("modifyUserInfo.do");
+		return mav;
+	}
 }

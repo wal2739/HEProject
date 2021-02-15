@@ -76,4 +76,15 @@ public class UserInfoDAO {
 		jdbcTemplate.update(sql,vo.getUserID(),vo.getUserPW(),vo.getUserName(),vo.getUserCell(),vo.getUserAdd01(),vo.getUserAdd02(),vo.getUserClass(),vo.getUserEmail(),vo.getUserConsent01(),vo.getUserConsent02(),vo.getUserConsent03());
 	}
 	
+	public int modifyUserInfo(UsersInfoVO vo) {
+		String sql = "update usersInfo set USERNAME=?,USERCELL=?,USERADD01=?,USERADD02=?,USEREMAIL=? where usrn=?";
+		try {
+			jdbcTemplate.update(sql,vo.getUserName(),vo.getUserCell(),vo.getUserAdd01(),vo.getUserAdd02(),vo.getUserEmail(),vo.getUsRn());
+			return 1;
+		} catch (Exception e) {
+			System.err.println(e);
+			return 0;
+		}
+	}
+	
 }

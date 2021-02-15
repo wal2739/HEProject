@@ -12,7 +12,7 @@
 	<a href="eachBoard.do?boardClassNum=1">개인 사용자 게시판</a>
 	<a href="eachBoard.do?boardClassNum=0">자유 게시판</a>
 	<a href="eachBoard.do?boardClassNum=3">공지 게시판</a>
-	<a href="#">내 정보</a>
+	<a href="checkIdentity.do">내 정보</a>
 	<input type="button" value="뒤로가기" onclick="location.href='main.do'"/>
 </body>
 </html>

@@ -84,4 +84,6 @@ public class EtcController {
 		mav.setViewName("eachBoard.jsp");
 		return mav;
 	}
+	
+	
 }

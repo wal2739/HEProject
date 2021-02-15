@@ -53,7 +53,7 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 	@Override
 	public String IdCheck(UsersInfoVO vo, HttpServletRequest request) {
 		vo.setUserID((String)request.getParameter("userId"));
-		UsersInfoVO result =  dao.getUser(vo);;
+		UsersInfoVO result =  dao.getUser(vo);
 		if(result == null) {
 			request.setAttribute("idCheck", 1);
 			return "IdCheck.jsp";
@@ -120,6 +120,38 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 	public List<SearchInfoVO> getAllEqInfo(SearchInfoVO vo, HttpSession session) {
 		vo.setUsRn((String)session.getAttribute("usRn"));
 		return dao.getAllEqInfo(vo);
+	}
+	
+	@Override
+	public void pwCheck(UsersInfoVO vo,HttpSession session,HttpServletRequest request) {
+		vo.setUsRn((String)session.getAttribute("usRn"));
+		UsersInfoVO result =  dao.getUserInfo(vo);
+		String passWord = request.getParameter("passWord");
+		if(result.getUserPW().equals(passWord) ) {
+			request.setAttribute("pwCheck", 1);
+		}else {
+			request.setAttribute("pwCheck", 0);
+		}
+	}
+
+	@Override
+	public void modifyUserInfo(UsersInfoVO vo, HttpSession session, HttpServletRequest request) {
+		vo.setUserAdd01(request.getParameter("userAdd01"));
+		if(request.getParameter("userAdd02")=="") {
+			vo.setUserAdd02("없음");
+		}else {
+			vo.setUserAdd02(request.getParameter("userAdd02"));
+		}
+		vo.setUserCell(request.getParameter("userCell"));
+		vo.setUserEmail(request.getParameter("userEmail"));
+		vo.setUserName(request.getParameter("userName"));
+		vo.setUsRn((String)session.getAttribute("usRn"));
+		int result = dao.modifyUserInfo(vo);
+		if(result==1) {
+			request.setAttribute("MDFUS", 1);
+		}else {
+			request.setAttribute("MDFUS", 0);
+		}
 	}
 	
 }

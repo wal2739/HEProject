@@ -29,4 +29,8 @@ public interface UsersInfoService {
 	public List<SearchInfoVO> getAllEqInfo(SearchInfoVO vo,HttpSession session);
 	
 	public UsersInfoVO getUserInfo(UsersInfoVO vo,HttpSession session);
+
+	void pwCheck(UsersInfoVO vo, HttpSession session, HttpServletRequest request);
+	
+	void modifyUserInfo(UsersInfoVO vo, HttpSession session, HttpServletRequest request);
 }
