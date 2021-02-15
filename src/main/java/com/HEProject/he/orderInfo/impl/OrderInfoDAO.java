@@ -134,4 +134,15 @@ public class OrderInfoDAO {
 			return 0;
 		}
 	}
+	
+	int workCancel(String workCode) {
+		String sql ="update orderInfo set appstatus=3 where workCode=?";
+		try {
+			jdbcTemplate.update(sql,workCode);
+			return 1;
+		} catch (Exception e) {
+			System.err.println(e);
+			return 0;
+		}
+	}
 }

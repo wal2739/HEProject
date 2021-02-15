@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.HEProject.he.orderInfo.OrderInfoService;
 import com.HEProject.he.workInfo.WorkInfoService;
 import com.HEProject.he.workInfo.WorkInfoVO;
 import com.HEProject.he.workInfo.WorkInfo_ST0VO;
+import com.HEProject.he.workInfo.WorkInfo_ST1VO;
 import com.HEProject.he.workInfo.WorkerInfoVO;
 
 @Repository
@@ -20,7 +22,10 @@ public class WorkInfoServiceImpl implements WorkInfoService {
 
 	@Autowired
 	WorkInfoDAO dao;
-
+	
+	@Autowired
+	OrderInfoService orderInfoService;
+	
 	@Override
 	public String newWork(WorkInfoVO vo, HttpSession session, HttpServletRequest request) {
 		String fieldManagerMail = request.getParameter("fieldManagerMail");
@@ -150,6 +155,50 @@ public class WorkInfoServiceImpl implements WorkInfoService {
 		vo.setAssUsRn((String)session.getAttribute("usRn"));
 		vo.setEquipType(request.getParameter("equipType"));
 		return dao.getWorkerList(vo);
+	}
+
+	@Override
+	public List<WorkInfo_ST1VO> getAllWork_toSt1(HttpSession session, HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void cancelWork(WorkInfoVO vo, HttpSession session, HttpServletRequest request) {
+		vo.setAssUsRn((String)session.getAttribute("usRn"));
+		String workCode = request.getParameter("workCode");
+		vo.setWorkCode(workCode);
+		int result = dao.cancelWork(vo);
+		if(result==1) {
+			int oResult = orderInfoService.workCancel(workCode);
+			if(oResult==1) {
+				request.setAttribute("cancelTF", 1);
+			}else {
+				request.setAttribute("cancelTF", 0);
+			}
+		}else {
+			request.setAttribute("cancelTF", 0);
+		}
+	}
+
+	@Override
+	public List<WorkInfoVO> getAllWork(WorkInfoVO vo, HttpSession session) {
+		vo.setAssUsRn((String)session.getAttribute("usRn"));
+		return dao.getAllWork(vo);
+	}
+
+	@Override
+	public WorkInfo_ST1VO getAllWork_toSt1(WorkInfo_ST1VO vo,HttpServletRequest request) {
+		String workCode = request.getParameter("workCode");
+		vo.setWorkCode(workCode);
+		return dao.getAllWorkInfo_st1(vo);
+	}
+
+	@Override
+	public WorkInfo_ST0VO getAllWork_toSt0(WorkInfo_ST0VO vo,HttpServletRequest request) {
+		String workCode = request.getParameter("workCode");
+		vo.setWorkCode(workCode);
+		return dao.getAllWorkInfo_st0(vo);
 	}
 	
 	

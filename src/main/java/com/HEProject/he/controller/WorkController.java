@@ -24,6 +24,7 @@ import com.HEProject.he.orderInfo.OrderInfo_st2VO;
 import com.HEProject.he.workInfo.WorkInfoService;
 import com.HEProject.he.workInfo.WorkInfoVO;
 import com.HEProject.he.workInfo.WorkInfo_ST0VO;
+import com.HEProject.he.workInfo.WorkInfo_ST1VO;
 import com.HEProject.he.workInfo.WorkerInfoVO;
 
 @Controller
@@ -149,6 +150,31 @@ public class WorkController {
 		mav.setViewName("orderInfoForIndi.do");
 		return mav;
 	}
+	@RequestMapping("cancelWork.do")
+	public ModelAndView cancelWork(ModelAndView mav,WorkInfoVO vo,HttpSession session,HttpServletRequest request) {
+		mav.addObject("list",workInfoService.getAllWork(vo, session));
+		mav.setViewName("cancelWork.jsp");
+		return mav;
+	}
 	
+	@RequestMapping("cancelWorkAct.do")
+	public ModelAndView cancelWorkAct(ModelAndView mav,WorkInfoVO vo,HttpSession session,HttpServletRequest request) {
+		workInfoService.cancelWork(vo, session, request);
+		mav.setViewName("cancelWork.do");
+		return mav;
+	}
 	
+	@RequestMapping("showWorkInfo_st0.do")
+	public ModelAndView showWorkInfo_st0(ModelAndView mav,WorkInfo_ST0VO vo,HttpSession session,HttpServletRequest request) {
+		mav.addObject("vo",workInfoService.getAllWork_toSt0(vo, request));
+		mav.setViewName("showWorkInfo_st0.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("showWorkInfo_st1.do")
+	public ModelAndView showWorkInfo_st1(ModelAndView mav,WorkInfo_ST1VO vo,HttpSession session,HttpServletRequest request) {
+		mav.addObject("vo",workInfoService.getAllWork_toSt1(vo, request));
+		mav.setViewName("showWorkInfo_st1.jsp");
+		return mav;
+	}
 }

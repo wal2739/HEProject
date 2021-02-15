@@ -15,4 +15,15 @@ public interface WorkInfoService {
 	String modifyWork(WorkInfoVO vo,HttpSession session,HttpServletRequest request);
 	
 	List<WorkerInfoVO> getWorkerList(WorkerInfoVO vo,HttpSession session,HttpServletRequest request);
+	
+	List<WorkInfoVO> getAllWork(WorkInfoVO vo,HttpSession session);
+	
+	List<WorkInfo_ST1VO> getAllWork_toSt1(HttpSession session,HttpServletRequest request);
+	
+	void cancelWork(WorkInfoVO vo,HttpSession session,HttpServletRequest request);
+	
+	WorkInfo_ST1VO getAllWork_toSt1(WorkInfo_ST1VO vo,HttpServletRequest request);
+	
+	WorkInfo_ST0VO getAllWork_toSt0(WorkInfo_ST0VO vo,HttpServletRequest request);
+
 }

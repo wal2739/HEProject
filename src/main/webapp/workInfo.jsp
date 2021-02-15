@@ -53,7 +53,7 @@
 		<%}} %>
 	</div>
 	<input type="button" value="등록하기" onClick="location.href='newWork.do'"/>
-	<input type="button" value="삭제하기" onClick="location.href='#'"/> ( 추후 추가 )
+	<input type="button" value="삭제하기" onClick="location.href='cancelWork.do'"/>
 	<input type="button" value="돌아가기" onClick="location.href='workMain.do'"/>
 </body>
 </html>

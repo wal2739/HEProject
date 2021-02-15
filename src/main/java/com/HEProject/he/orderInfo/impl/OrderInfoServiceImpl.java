@@ -108,7 +108,11 @@ public class OrderInfoServiceImpl implements OrderInfoService{
 				request.setAttribute("orderMDF", 2);
 			}
 		}
-		
+	}
+
+	@Override
+	public int workCancel(String workCode) {
+		return dao.workCancel(workCode);
 	}
 	
 }

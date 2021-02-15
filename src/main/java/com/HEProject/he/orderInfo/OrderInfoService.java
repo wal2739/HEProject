@@ -20,4 +20,6 @@ public interface OrderInfoService {
 	OrderInfoForIndiVO getOrderForIndi(OrderInfoForIndiVO vo, HttpServletRequest request, HttpSession session);
 	
 	void modifyOrder(OrderInfoVO vo, HttpServletRequest request, HttpSession session);
+	
+	int workCancel(String workCode);
 }
