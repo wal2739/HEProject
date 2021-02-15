@@ -31,6 +31,7 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 			session.setAttribute("userId", result.getUserID());
 			session.setAttribute("userClass", result.getUserClass());
 			session.setAttribute("userName", result.getUserName());
+			session.setMaxInactiveInterval(-1);
 			return "main.do";
 		}else{
 			request.setAttribute("loginST", 2);
