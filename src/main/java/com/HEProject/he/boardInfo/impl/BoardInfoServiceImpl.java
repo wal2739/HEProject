@@ -10,16 +10,21 @@ import org.springframework.stereotype.Repository;
 
 import com.HEProject.he.boardInfo.BoardInfoService;
 import com.HEProject.he.boardInfo.BoardInfoVO;
+import com.HEProject.he.usersInfo.UsersInfoService;
+import com.HEProject.he.usersInfo.UsersInfoVO;
 
 @Repository
 public class BoardInfoServiceImpl implements BoardInfoService{
 
 	@Autowired
 	BoardInfoDAO dao;
+	
+	@Autowired
+	UsersInfoService usersInfoService;
 
 	@Override
 	public List<BoardInfoVO> getAllBoard() {
-		return dao.getAllBoard();
+		return dao.getAllBoard(0);
 	}
 
 	@Override
@@ -39,6 +44,7 @@ public class BoardInfoServiceImpl implements BoardInfoService{
 
 	@Override
 	public BoardInfoVO getBoard(BoardInfoVO vo, HttpServletRequest request, HttpSession session) {
+		
 		vo.setBoardCode(request.getParameter("boardCode"));
 		int statusNum = Integer.parseInt(request.getParameter("statusNum"));
 		int result = 3;
@@ -89,7 +95,31 @@ public class BoardInfoServiceImpl implements BoardInfoService{
 		}
 		return "getBoard.do?boardCode=" + boardCode + "&statusNum=0";
 	}
-	
+
+	@Override
+	public List<BoardInfoVO> getEachBoard(HttpServletRequest request, HttpSession session) {
+		int boardClassNum = Integer.parseInt(request.getParameter("boardClassNum"));
+		int userClass = (Integer)session.getAttribute("userClass");
+		if(boardClassNum==0) {
+			request.setAttribute("classType", 0);
+		}else if(boardClassNum==1) {
+			request.setAttribute("classType", 1);
+		}else if(boardClassNum==2){
+			request.setAttribute("classType", 2);
+		}else {
+			request.setAttribute("classType", 9);
+		}
+		request.setAttribute("nuserClass", userClass);
+		return dao.getAllBoard(boardClassNum);
+	}
+
+	@Override
+	public UsersInfoVO insertBoardForFree(UsersInfoVO vo, HttpServletRequest request, HttpSession session) {
+		if(request.getParameter("boardClass")!=null) {
+			request.setAttribute("boardClassRe", request.getParameter("boardClass"));
+		}
+		return usersInfoService.getUserInfo(vo,session);
+	}
 	
 	
 }

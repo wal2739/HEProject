@@ -43,7 +43,7 @@ public class EtcController {
 	
 	@RequestMapping("insertBoardForFree.do")
 	public ModelAndView insertBoardForFree(ModelAndView mav,UsersInfoVO vo,HttpServletRequest request,HttpSession session) {
-		mav.addObject("vo",usersInfoService.getUserInfo(vo,session));
+		mav.addObject("vo",boardInfoService.insertBoardForFree(vo, request, session));
 		mav.setViewName("insertBoardForFree.jsp");
 		return mav;
 	}
@@ -76,5 +76,12 @@ public class EtcController {
 	@RequestMapping("modifyBoardAct.do")
 	public String modifyBoardAct(BoardInfoVO vo,HttpServletRequest request,HttpSession session) {		
 		return boardInfoService.modifyBoard(vo, request, session);
+	}
+	
+	@RequestMapping("eachBoard.do")
+	public ModelAndView eachBoard(ModelAndView mav,HttpServletRequest request,HttpSession session) {
+		mav.addObject("list",boardInfoService.getEachBoard(request,session));
+		mav.setViewName("eachBoard.jsp");
+		return mav;
 	}
 }

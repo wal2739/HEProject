@@ -47,7 +47,7 @@
 			<%}} %>
 		</table>
 	</div>
-	<input type="button" value="글 쓰기" onclick="location.href='insertBoardForFree.do'"/>
+	<input type="button" value="글 쓰기" onclick="location.href='insertBoardForFree.do?boardClass=0'"/>
 	<input type="button" value="내 게시물"/>
 	<input type="button" value="뒤로가기" onclick="location.href='etcForIndi.do'"/>
 	<div>

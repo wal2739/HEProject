@@ -9,8 +9,8 @@
 <body>
 	<h1>기타 - 중계</h1>
 	<a href="#">요청 사항 관리 및 공지 등록</a>
-	<a href="freeBoard.do">자유 게시판</a>
-	<a href="#">개인 사용자 게시판</a>
+	<a href="eachBoard.do?boardClassNum=0">자유 게시판</a>
+	<a href="eachBoard.do?boardClassNum=2">중계 사용자 게시판</a>
 	<a href="#">공지 사항</a>
 	<a href="#">내 정보</a>
 </body>

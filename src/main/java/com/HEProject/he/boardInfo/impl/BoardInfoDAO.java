@@ -37,8 +37,8 @@ public class BoardInfoDAO {
 		}
 	}
 	
-	List<BoardInfoVO> getAllBoard(){
-		String sql = "select * from boardInfo where boardClass=0";
+	List<BoardInfoVO> getAllBoard(int boardClass){
+		String sql = "select * from boardInfo where boardClass=" + boardClass;
 		try {
 			return jdbcTemplate.query(sql, new BoardInfoRowMapper());
 		} catch (EmptyResultDataAccessException e) {

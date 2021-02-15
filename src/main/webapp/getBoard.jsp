@@ -83,7 +83,7 @@
 			</tr>															
 		</table>
 		<input type="button" value="수정하기" onclick="location.href='checkIdForModify.do?boardCode=<%=vo.getBoardCode()%>'"/>		
-		<input type="button" value="뒤로가기" onclick="location.href='freeBoard.do'"/>
+		<input type="button" value="뒤로가기" onclick="location.href='eachBoard.do?boardClassNum=<%=vo.getBoardClass()%>'"/>
 	</div>
 </body>
 </html>

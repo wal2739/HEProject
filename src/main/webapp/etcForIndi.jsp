@@ -9,8 +9,8 @@
 <body>
 	<h1>개인 - 기타</h1>
 	<a href="#">중계/협회 공지/알림</a>
-	<a href="#">개인 사용자 게시판</a>
-	<a href="freeBoard.do">자유 게시판</a>
+	<a href="eachBoard.do?boardClassNum=1">개인 사용자 게시판</a>
+	<a href="eachBoard.do?boardClassNum=0">자유 게시판</a>
 	<a href="#">공지 사항</a>
 	<a href="#">내 정보</a>
 	<input type="button" value="뒤로가기" onclick="location.href='main.do'"/>
