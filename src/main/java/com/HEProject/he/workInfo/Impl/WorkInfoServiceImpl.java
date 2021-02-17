@@ -200,6 +200,19 @@ public class WorkInfoServiceImpl implements WorkInfoService {
 		vo.setWorkCode(workCode);
 		return dao.getAllWorkInfo_st0(vo);
 	}
+
+	@Override
+	public List<WorkInfo_ST0VO> getAllWork_toSt3(WorkInfo_ST0VO vo, HttpSession session, HttpServletRequest request) {
+		vo.setAssUsRn((String)session.getAttribute("usRn"));
+		return dao.getAllWork_toSt3(vo);
+	}
+
+	@Override
+	public WorkInfo_ST0VO getAllWorkInfo_st3(WorkInfo_ST0VO vo, HttpServletRequest request) {
+		String workCode = request.getParameter("workCode");
+		vo.setWorkCode(workCode);
+		return dao.getAllWorkInfo_st3(vo);
+	}
 	
 	
 }

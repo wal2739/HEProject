@@ -41,6 +41,27 @@ public class WorkInfoDAO {
 		}	
 	}
 	
+	List<WorkInfo_ST0VO> getAllWork_toSt3(WorkInfo_ST0VO vo){//assUsRn 을 이용한 work_st0 테이블의 st = 3 값 조회
+		String sql = "select * from work_st0 where ASSUSRN = '"+ vo.getAssUsRn() +"' and st=3";
+		try {
+			return jdbcTemplate.query(sql, new WorkInfo_ST0RowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			System.err.println("work DAO 오류 : " + e);
+			return null;
+		}	
+	}
+	
+	WorkInfo_ST0VO getAllWorkInfo_st3(WorkInfo_ST0VO vo) {//workCode를 이용한 work_st3 조회
+		String sql = "select * from work_st0 where workCode = ? and st=3";
+		Object[] args = {vo.getWorkCode()};
+		try {
+			return jdbcTemplate.queryForObject(sql, args, new WorkInfo_ST0RowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			System.err.println("work DAO 오류 : " + e);
+			return null;
+		}
+	}
+	
 	List<WorkInfo_ST0VO> getAllWork_toSt0(WorkInfo_ST0VO vo){//assUsRn 을 이용한 work_st0 조회
 		String sql = "select * from work_st0 where ASSUSRN = '"+ vo.getAssUsRn() +"' and st=0";
 		try {
@@ -52,7 +73,7 @@ public class WorkInfoDAO {
 	}
 	
 	WorkInfo_ST0VO getAllWorkInfo_st0(WorkInfo_ST0VO vo) {//workCode를 이용한 work_st0 조회
-		String sql = "select * from work_st0 where workCode = ? and st=0";
+		String sql = "select * from work_st0 where workCode = ?";
 		Object[] args = {vo.getWorkCode()};
 		try {
 			return jdbcTemplate.queryForObject(sql, args, new WorkInfo_ST0RowMapper());

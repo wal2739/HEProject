@@ -101,5 +101,7 @@
 			<div id="showWork<%=i %>" class="showWork<%=i %>" style="display: none;"></div>
 		<%}} %>
 	</div>
+	<input type="button" value="뒤로가기" onclick="location.href='workInfo.do'"/>
+	
 </body>
 </html>

@@ -26,4 +26,7 @@ public interface WorkInfoService {
 	
 	WorkInfo_ST0VO getAllWork_toSt0(WorkInfo_ST0VO vo,HttpServletRequest request);
 
+	List<WorkInfo_ST0VO> getAllWork_toSt3(WorkInfo_ST0VO vo,HttpSession session,HttpServletRequest request);
+	
+	WorkInfo_ST0VO getAllWorkInfo_st3(WorkInfo_ST0VO vo,HttpServletRequest request);
 }
