@@ -131,7 +131,7 @@ public class WorkController {
 	}
 	@RequestMapping("workInfoForIndi.do")
 	public ModelAndView workInfoForIndi(ModelAndView mav,HttpSession session,HttpServletRequest request) {
-		
+		mav.addObject("list",workInfoService.getAllWork_toSt1(session, request));
 		mav.setViewName("workInfoForIndi.jsp");
 		return mav;
 	}
@@ -156,6 +156,13 @@ public class WorkController {
 	public ModelAndView cancelWork(ModelAndView mav,WorkInfoVO vo,HttpSession session,HttpServletRequest request) {
 		mav.addObject("list",workInfoService.getAllWork(vo, session));
 		mav.setViewName("cancelWork.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("cancelWorkListForIndi.do")
+	public ModelAndView cancelWorkForIndi(ModelAndView mav,WorkInfo_ST0VO vo,HttpSession session,HttpServletRequest request) {
+		mav.addObject("list",workInfoService.getAllWork_toSt3ForIndi(vo, session, request));
+		mav.setViewName("cancelWorkListForIndi.jsp");
 		return mav;
 	}
 	

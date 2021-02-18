@@ -159,8 +159,10 @@ public class WorkInfoServiceImpl implements WorkInfoService {
 
 	@Override
 	public List<WorkInfo_ST1VO> getAllWork_toSt1(HttpSession session, HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		String userClass = request.getParameter("uClass");
+		String usRn = (String)session.getAttribute("usRn");
+		request.setAttribute("doneCode", 0);
+		return dao.getAllWork_toSt1(usRn, userClass);
 	}
 	
 	@Override
@@ -193,7 +195,6 @@ public class WorkInfoServiceImpl implements WorkInfoService {
 		vo.setWorkCode(workCode);
 		return dao.getAllWorkInfo_st1(vo);
 	}
-
 	@Override
 	public WorkInfo_ST0VO getAllWork_toSt0(WorkInfo_ST0VO vo,HttpServletRequest request) {
 		String workCode = request.getParameter("workCode");
@@ -212,6 +213,12 @@ public class WorkInfoServiceImpl implements WorkInfoService {
 		String workCode = request.getParameter("workCode");
 		vo.setWorkCode(workCode);
 		return dao.getAllWorkInfo_st3(vo);
+	}
+
+	@Override
+	public List<WorkInfo_ST0VO> getAllWork_toSt3ForIndi(WorkInfo_ST0VO vo, HttpSession session, HttpServletRequest request) {
+		vo.setIndiUsRn((String)session.getAttribute("usRn"));
+		return dao.getAllWork_toSt3ForIndi(vo);
 	}
 	
 	

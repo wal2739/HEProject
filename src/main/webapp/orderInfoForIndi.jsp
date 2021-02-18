@@ -24,7 +24,7 @@
 	function sOrd(iNum,codeNum) {
 		var confirmTF;
 		if(iNum==0){
-			confirmTF = confirm('거절하시겠습니까');
+			confirmTF = confirm('거절하시겠습니까?');
 			switch (confirmTF) {
 			case true:
 				location.href='modifyOrder.do?orderCode='+codeNum+'&appStatus='+'0';
@@ -38,7 +38,7 @@
 				break;
 			}
 		}else{
-			confirmTF = confirm('수락하시겠습니까');
+			confirmTF = confirm('수락하시겠습니까?');
 			switch (confirmTF) {
 			case true:
 				location.href='modifyOrder.do?orderCode='+codeNum+'&appStatus='+'1';
