@@ -564,4 +564,7 @@ eInfo.EQUIPTYPE,
 eInfo.EQUIPCLASS,
 eInfo.EQUIPOPTION
 from workInfo wInfo,usersInfo uInfo,boInfo bInfo,equipinfo eInfo where wInfo.indiusrn=uinfo.usrn and winfo.eqrn=einfo.eqrn and winfo.indiusrn=binfo.usrn and wInfo.st=1) test02 where test01.workcode=test02.workcode;
+--aWorkInfo 테이블 컬럼 삭제
+alter table aworkINfo drop COLUMN ac;
+alter table aworkInfo drop COLUMN ct;
 

@@ -157,4 +157,15 @@ public class WorkInfoDAO {
 		}
 	}
 	
+	int finishWork(String workCode) {
+		String sql = "update workInfo set ST=2 where workCode=?";
+		try { 
+			jdbcTemplate.update(sql,workCode);
+			return 1;
+		}catch (Exception e) {
+			System.err.println("work DAO 오류 : " + e);
+			return 0;
+		}
+	}
+	
 }

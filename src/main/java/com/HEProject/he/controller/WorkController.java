@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.HEProject.he.aWorkInfo.AWorkInfoService;
+import com.HEProject.he.aWorkInfo.AWorkInfoVO;
 import com.HEProject.he.clientInfo.ClientInfoService;
 import com.HEProject.he.clientInfo.ClientInfoVO;
 import com.HEProject.he.orderInfo.OrderInfoForIndiVO;
@@ -39,6 +41,9 @@ public class WorkController {
 
 	@Autowired
 	OrderInfoService orderInfoService;
+	
+	@Autowired
+	AWorkInfoService aWorkInfoService;
 	
 	@RequestMapping("workMain.do")
 	public ModelAndView workMain(ModelAndView mav, HttpSession session) {
@@ -200,4 +205,31 @@ public class WorkController {
 		mav.setViewName("showWorkInfo_st1.jsp");
 		return mav;
 	}
+	
+	@RequestMapping("workESCheck.do")
+	public ModelAndView workESCheck(ModelAndView mav,WorkInfo_ST0VO vo,HttpSession session,HttpServletRequest request) {
+		mav.addObject("vo",workInfoService.getAllWorkInfo_st0(vo, request));
+		mav.setViewName("workESCheck.jsp");
+		return mav;
+	}
+	@RequestMapping("workESAct.do")
+	public ModelAndView workESAct(ModelAndView mav,AWorkInfoVO vo,HttpSession session,HttpServletRequest request) {
+		mav.setViewName(aWorkInfoService.newAworkInfo(request, vo));
+		return mav;
+	}
+	
+	@RequestMapping("workData.do")
+	public ModelAndView workData(ModelAndView mav,HttpSession session,HttpServletRequest request) {
+		mav.setViewName("workData.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("finishedWorkList.do")
+	public ModelAndView finishedWorkList(ModelAndView mav,HttpSession session,HttpServletRequest request) {
+		mav.setViewName("finishedWorkList.jsp");
+		return mav;
+	}
+	
 }
+
+

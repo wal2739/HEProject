@@ -90,7 +90,6 @@ public class WorkInfoServiceImpl implements WorkInfoService {
 
 	@Override
 	public WorkInfo_ST0VO getAllWorkInfo_st0(WorkInfo_ST0VO vo, HttpServletRequest request) {
-		System.out.println(request.getParameter("wCode"));
 		vo.setWorkCode(request.getParameter("wCode"));
 		return dao.getAllWorkInfo_st0(vo);
 	}
@@ -219,6 +218,11 @@ public class WorkInfoServiceImpl implements WorkInfoService {
 	public List<WorkInfo_ST0VO> getAllWork_toSt3ForIndi(WorkInfo_ST0VO vo, HttpSession session, HttpServletRequest request) {
 		vo.setIndiUsRn((String)session.getAttribute("usRn"));
 		return dao.getAllWork_toSt3ForIndi(vo);
+	}
+
+	@Override
+	public int finishWork(String workCode) {
+		return dao.finishWork(workCode);
 	}
 	
 	
