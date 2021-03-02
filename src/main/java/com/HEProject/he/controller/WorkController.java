@@ -1,9 +1,12 @@
 package com.HEProject.he.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import javax.imageio.IIOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.HEProject.he.aWorkInfo.AWorkInfoService;
@@ -23,6 +27,7 @@ import com.HEProject.he.orderInfo.OrderInfoForIndiVO;
 import com.HEProject.he.orderInfo.OrderInfoService;
 import com.HEProject.he.orderInfo.OrderInfoVO;
 import com.HEProject.he.orderInfo.OrderInfo_st2VO;
+import com.HEProject.he.workDataInfo.WorkDataInfoVO;
 import com.HEProject.he.workInfo.WorkInfoService;
 import com.HEProject.he.workInfo.WorkInfoVO;
 import com.HEProject.he.workInfo.WorkInfo_ST0VO;
@@ -228,6 +233,18 @@ public class WorkController {
 	public ModelAndView finishedWorkList(ModelAndView mav,HttpSession session,HttpServletRequest request) {
 		mav.setViewName("finishedWorkList.jsp");
 		return mav;
+	}
+	
+	@RequestMapping("testUpload.do")
+	public String testUpload(WorkDataInfoVO vo) throws IllegalStateException, IOException{
+		MultipartFile uploadFile = vo.getUploadFile();
+		String fileName = "";
+		if(!uploadFile.isEmpty()) {
+			fileName = uploadFile.getOriginalFilename();
+			uploadFile.transferTo(new File("D:/" + fileName));
+		}
+		System.out.println(fileName);
+		return "workData.do";
 	}
 	
 }

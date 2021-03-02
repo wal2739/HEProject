@@ -8,5 +8,9 @@
 </head>
 <body>
 	<h1>증빙 자료 등록</h1>
+	<form action="testUpload.do" method="post" enctype="multipart/form-data">
+		<input type="file" name="uploadFile"/>
+		<input type="submit" value="테스트 등록"/>
+	</form>
 </body>
 </html>

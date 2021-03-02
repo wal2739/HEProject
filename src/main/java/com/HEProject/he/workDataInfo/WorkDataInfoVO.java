@@ -2,11 +2,14 @@ package com.HEProject.he.workDataInfo;
 
 import java.io.Serializable;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class WorkDataInfoVO implements Serializable{
 
 	private String workCode;
 	private int de;
 	private String dtName;
+	private MultipartFile uploadFile;
 	public WorkDataInfoVO() {}
 	@Override
 	public String toString() {
@@ -62,6 +65,14 @@ public class WorkDataInfoVO implements Serializable{
 	public void setDtName(String dtName) {
 		this.dtName = dtName;
 	}
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
+	
+	
 	
 	
 }
