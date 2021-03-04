@@ -225,5 +225,22 @@ public class WorkInfoServiceImpl implements WorkInfoService {
 		return dao.finishWork(workCode);
 	}
 	
+	@Override
+	public List<WorkInfo_ST0VO> getAllWork_toSt2ForIndi(WorkInfo_ST0VO vo, HttpSession session,HttpServletRequest request) {
+		vo.setIndiUsRn((String)session.getAttribute("usRn"));
+		return dao.getAllWork_toSt2ForIndi(vo);
+	}
+	
+	@Override
+	public List<WorkInfo_ST0VO> getAllWork_toSt2ForIndiNoData(WorkInfo_ST0VO vo, HttpSession session,HttpServletRequest request) {
+		vo.setIndiUsRn((String)session.getAttribute("usRn"));
+		return dao.getAllWork_toSt2ForIndiNoData(vo);
+	}
+	
+	@Override
+	public List<WorkInfo_ST0VO> getAllWork_toSt2ForIndiData(WorkInfo_ST0VO vo, HttpSession session,HttpServletRequest request) {
+		vo.setIndiUsRn((String)session.getAttribute("usRn"));
+		return dao.getAllWork_toSt2ForIndiData(vo);
+	}
 	
 }

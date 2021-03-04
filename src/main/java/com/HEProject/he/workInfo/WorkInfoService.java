@@ -32,5 +32,14 @@ public interface WorkInfoService {
 	
 	List<WorkInfo_ST0VO> getAllWork_toSt3ForIndi(WorkInfo_ST0VO vo, HttpSession session,HttpServletRequest request);
 	
+	List<WorkInfo_ST0VO> getAllWork_toSt2ForIndi(WorkInfo_ST0VO vo, HttpSession session,HttpServletRequest request);
+	
+	List<WorkInfo_ST0VO> getAllWork_toSt2ForIndiNoData(WorkInfo_ST0VO vo, HttpSession session,
+			HttpServletRequest request);
+	
 	int finishWork(String workCode);
+
+	List<WorkInfo_ST0VO> getAllWork_toSt2ForIndiData(WorkInfo_ST0VO vo, HttpSession session,
+			HttpServletRequest request);
+
 }

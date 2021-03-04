@@ -27,6 +27,7 @@ import com.HEProject.he.orderInfo.OrderInfoForIndiVO;
 import com.HEProject.he.orderInfo.OrderInfoService;
 import com.HEProject.he.orderInfo.OrderInfoVO;
 import com.HEProject.he.orderInfo.OrderInfo_st2VO;
+import com.HEProject.he.workDataInfo.WorkDataInfoService;
 import com.HEProject.he.workDataInfo.WorkDataInfoVO;
 import com.HEProject.he.workInfo.WorkInfoService;
 import com.HEProject.he.workInfo.WorkInfoVO;
@@ -49,6 +50,9 @@ public class WorkController {
 	
 	@Autowired
 	AWorkInfoService aWorkInfoService;
+	
+	@Autowired
+	WorkDataInfoService workDataInfoService;
 	
 	@RequestMapping("workMain.do")
 	public ModelAndView workMain(ModelAndView mav, HttpSession session) {
@@ -224,7 +228,8 @@ public class WorkController {
 	}
 	
 	@RequestMapping("workData.do")
-	public ModelAndView workData(ModelAndView mav,HttpSession session,HttpServletRequest request) {
+	public ModelAndView workData(ModelAndView mav,WorkInfo_ST0VO vo,HttpSession session,HttpServletRequest request) {
+		mav.addObject("list",workInfoService.getAllWork_toSt2ForIndiData(vo, session, request));
 		mav.setViewName("workData.jsp");
 		return mav;
 	}
@@ -235,16 +240,30 @@ public class WorkController {
 		return mav;
 	}
 	
-	@RequestMapping("testUpload.do")
-	public String testUpload(WorkDataInfoVO vo) throws IllegalStateException, IOException{
+	@RequestMapping("newWorkData.do")
+	public ModelAndView newWorkData(ModelAndView mav,WorkInfo_ST0VO vo,HttpSession session,HttpServletRequest request) {
+		mav.addObject("list",workInfoService.getAllWork_toSt2ForIndiNoData(vo, session, request));
+		mav.setViewName("newWorkData.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("WorkDataUpload.do")
+	public String testUpload(WorkDataInfoVO vo, HttpServletRequest request) throws IllegalStateException, IOException{
 		MultipartFile uploadFile = vo.getUploadFile();
 		String fileName = "";
 		if(!uploadFile.isEmpty()) {
 			fileName = uploadFile.getOriginalFilename();
-			uploadFile.transferTo(new File("D:/" + fileName));
+			uploadFile.transferTo(new File("D:/workSpace/work/HEProject/src/main/webapp/workDataUpload" + fileName));
 		}
-		System.out.println(fileName);
-		return "workData.do";
+		workDataInfoService.workDataUpload(fileName, request);
+		return "newWorkData.do";
+	}
+	
+	@RequestMapping("workDataIMG.do")
+	public ModelAndView workDataIMG(ModelAndView mav,HttpServletRequest request) {
+		mav.addObject("vo",workDataInfoService.getDataName(request));
+		mav.setViewName("workDataIMG.jsp");
+		return mav;
 	}
 	
 }
