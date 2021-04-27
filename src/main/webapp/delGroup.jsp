@@ -23,8 +23,21 @@
 		border: solid black 1px;
 	}
 </style>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	function successCheck() {
+		<%
+		String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		%>
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+		
+		
 		var checkNum = <%=request.getAttribute("delCheckNum")%>;
 		if(checkNum==null){}
 		if(checkNum==0){

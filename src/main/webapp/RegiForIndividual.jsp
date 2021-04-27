@@ -17,7 +17,7 @@
 <script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	function loadOn() {
-		var loginCheckData = '<%=loginCheckData%>';
+		var loginCheckData = <%=loginCheckData%>;
 		loginCheck(loginCheckData);
 	}
 </script>
@@ -38,6 +38,5 @@
 	<a href="showVehicleInfo.do">차량등록/수정</a>	<br />
 	<a href="showMyGroup.do">중계/협회 등록&수정</a>	<br />
 	<input type="button" value="뒤로가기" onClick="location.href='main.do'"/>
-	
 </body>
 </html>

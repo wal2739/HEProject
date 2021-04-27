@@ -26,6 +26,7 @@
 <meta charset="UTF-8">
 <title>작업 정보 및 발주 정보</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	function getAllWorkInfo(workCode) {
 		window.name="parentForm";
@@ -34,13 +35,25 @@
 	function cfmWork(wCode){
 		window.open("workESCheck.do?wCode=" + wCode,"workESCheck","width=1250,height=500,resizable=no,scrollbars=yes");	
 	}
+	function loadOn() {
+		<%
+		String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		%>
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+	}
 </script>
 <style>
 	p {
 		display: inline;
 	}
 </style>
-<body>
+<body onload="loadOn();">
 	<h2>작업 정보 및 발주 정보</h2>
 	<!-- 현재 작업 정보 리스트 -->
 	<div>

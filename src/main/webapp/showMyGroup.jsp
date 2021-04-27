@@ -9,9 +9,22 @@
 <meta charset="UTF-8">
 <title>등록된 중계/협회 목록</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 function messageCheck() {
 	window.open("messageCheck.do?wMsg=1","EquipType","width=1000,height=600,resizable=no,scrollbars=yes");
+}
+function loadon() {
+	<%
+	String loginCheckData="";
+	try{
+		loginCheckData= (String)session.getAttribute("userId");
+	}catch(NullPointerException e){
+		System.err.println("비회원 아이디 에러 : "+e);
+	}
+	%>
+	var loginCheckData = <%=loginCheckData%>;
+	loginCheck(loginCheckData);
 }
 </script>
 <style>
@@ -29,7 +42,7 @@ function messageCheck() {
 		border: solid black 1px;
 	}
 </style>
-<body>
+<body onload="loadon();">
 	<h1>등록된 중계/협회 목록 및 수정</h1>
 	<div>
 		<%if(list.size()==0){ %>

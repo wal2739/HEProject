@@ -14,8 +14,20 @@
 <meta charset="UTF-8">
 <title>가입 신청 현황</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	function checkModify() {
+		<%
+		String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		%>
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+		
 		var checkNum = <%=request.getAttribute("modifyAciCheck")%>;
 		if(checkNum==null){
 			

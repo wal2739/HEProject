@@ -10,9 +10,22 @@
 <meta charset="UTF-8">
 <title>회원 관리</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	function messageCheck() {
 		window.open("messageCheck.do?wMsg=1","EquipType","width=1000,height=600,resizable=no,scrollbars=yes");
+	}
+	function loadOn() {
+		<%
+		String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		%>
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
 	}
 </script>
 <style>
@@ -23,7 +36,7 @@
 		border: 1px solid black;
 	}
 </style>
-<body>
+<body onload="loadOn();">
 	<h1>현재 등록된 회원 목록</h1>
 	<div id="userList">
 		<%if(list==null){%>

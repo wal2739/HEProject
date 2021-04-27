@@ -10,8 +10,20 @@
 <meta charset="UTF-8">
 <title>거래처 삭제</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 function ModifyCliCheck() {
+	
+	<%
+	String loginCheckData="";
+	try{
+		loginCheckData= (String)session.getAttribute("userId");
+	}catch(NullPointerException e){
+		System.err.println("비회원 아이디 에러 : "+e);
+	}
+	%>
+	var loginCheckData = <%=loginCheckData%>;
+	loginCheck(loginCheckData);
 	
 	var boCheck = <%=request.getAttribute("delCliCheck")%>
 	console.log(boCheck);

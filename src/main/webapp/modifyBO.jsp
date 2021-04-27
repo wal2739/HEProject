@@ -293,6 +293,9 @@
 		
 		//////////
 		
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+		
 		var cpNameVal = '<%=boInfo02.getCpName()%>';
 		if(cpNameVal=='없음'){
 			document.getElementById('cpName').setAttribute('readonly','readonly');
@@ -316,12 +319,6 @@
 		if(boCheck==3){
 			alert('확인되지 않은 요청입니다.');
 		}
-	}
-
-	function loadOn() {
-		
-		
-		
 	}
 </script>
 <style>

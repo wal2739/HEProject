@@ -56,15 +56,14 @@
 		
 	}
 	function loadOn() {
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
 		var cpName = '<%=vo.getCpName()%>';
 		if(cpName=='없음'){
 			document.getElementById('backBTN').setAttribute('onClick',"location.href='RegiForIndividual.do'");
 		}else{
 			document.getElementById('backBTN').setAttribute('onClick',"location.href='AssForOption.jsp'");
 		}
-		var loginCheckData = '<%=loginCheckData%>';
-		loginCheck(loginCheckData);
-	
 	}
 </script><style>
 	table, th, td {

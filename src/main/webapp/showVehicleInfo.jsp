@@ -40,6 +40,17 @@
 		
 	}
 	function loadCheck() {
+		<%
+		String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		%>
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+		
 		var newVehicleCheck = <%=request.getAttribute("newVehicleCheck")%>;
 		var modVehicleCheck = <%=request.getAttribute("modVehicleCheck")%>;
 		var delVehicleCheck = <%=request.getAttribute("delVehicleCheck")%>;
@@ -64,16 +75,7 @@
 		if(delVehicleCheck==0){
 			alert('차량정보가 정상적으로 삭제 되지 않았습니다. 다시 시도 해주세요.');
 		}
-		<%
-		String loginCheckData="";
-		try{
-			loginCheckData= (String)session.getAttribute("userId");
-		}catch(NullPointerException e){
-			System.err.println("비회원 아이디 에러 : "+e);
-		}
-		%>
-		var loginCheckData = '<%=loginCheckData%>';
-		loginCheck(loginCheckData);
+		
 		
 	}
 </script>
@@ -93,7 +95,9 @@ tr, td {
 	<input type="button" value="차량등록" onClick="location.href='vehicleInfo.do'"/>
 	<input type="button" value="뒤로가기" onClick="location.href='RegiForIndividual.do'"/>
 	<div>
-	<hr /><%if(list.size()==0){ %>
+	<hr />
+	<%if(list==null){ %>
+	<%}else {if(list.size()==0){ %>
 			<p>현재 등록된 차량이 없습니다.</p>
 		<%}else {for(int i = 0 ; i < list.size(); i++){ %>
 			<table>
@@ -133,7 +137,7 @@ tr, td {
 				</tr>
 			</table>
 			<hr />
-		<%}
+		<%}}
 		}%>
 	</div>
 	<hr />

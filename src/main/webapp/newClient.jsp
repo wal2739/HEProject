@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>거래처 추가</title>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 function validate() {
 	var re = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;// 이메일이 적합한지 검사할 정규식
@@ -127,6 +128,17 @@ function validate() {
 }
 
 function CliCheck() {
+	
+	<%
+	String loginCheckData="";
+	try{
+		loginCheckData= (String)session.getAttribute("userId");
+	}catch(NullPointerException e){
+		System.err.println("비회원 아이디 에러 : "+e);
+	}
+	%>
+	var loginCheckData = <%=loginCheckData%>;
+	loginCheck(loginCheckData);
 	
 	var boCheck = <%=request.getAttribute("newCliCheck")%>
 	console.log(boCheck);

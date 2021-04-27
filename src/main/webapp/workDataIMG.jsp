@@ -26,5 +26,6 @@
 	<div class="imgDIV" id="imgDIV">
 		<input type="image" src="/workDataUpload/<%=vo.getDtName() %>" id="workDataIMG" name="workDataIMG" readonly="readonly"/>
 	</div>
+	<input type="button" value="닫기" onclick="window.close();"/>
 </body>
 </html>

@@ -254,7 +254,7 @@
 	}
 
 	function boCheck() {
-		var loginCheckData = '<%=loginCheckData%>';
+		var loginCheckData = <%=loginCheckData%>;
 		loginCheck(loginCheckData);
 		
 		var boCheck = <%=request.getAttribute("boCheck")%>

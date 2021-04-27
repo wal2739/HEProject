@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <title>작업 의뢰 정보</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	var globalNum = 0;
 	function getOrderInfo(codeNum, iNum) {
@@ -55,6 +56,17 @@
 		
 	}
 	function loadOn() {
+		<%
+		String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		%>
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+		
 		var orderMDF=<%=request.getAttribute("orderMDF")%>;
 		if(orderMDF==null){
 			

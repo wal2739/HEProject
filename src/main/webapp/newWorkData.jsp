@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>증빙자료 등록</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	function sltWork(workCode) {
 		document.getElementById("workList").innerHTML = "<form action=\"WorkDataUpload.do\" method=\"post\" enctype=\"multipart/form-data\"><input type=\"file\" name=\"uploadFile\" accept=\"image/jpef,image/png,image/jpg\"/><input type=\"hidden\" id=\"workCode\" name=\"workCode\"/><input type=\"submit\" value=\"등록\"/></form>";
@@ -17,6 +18,17 @@
 	}
 	
 	function loadOn() {
+		<%
+		String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		%>
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+		
 		var uploadChk = <%=request.getAttribute("uploadChk")%>;
 		switch (uploadChk) {
 		case null:

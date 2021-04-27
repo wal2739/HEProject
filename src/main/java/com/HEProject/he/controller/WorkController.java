@@ -253,7 +253,7 @@ public class WorkController {
 		String fileName = "";
 		if(!uploadFile.isEmpty()) {
 			fileName = uploadFile.getOriginalFilename();
-			uploadFile.transferTo(new File("D:/workSpace/work/HEProject/src/main/webapp/workDataUpload" + fileName));
+			uploadFile.transferTo(new File("D:/workSpace/work/HEProject/src/main/webapp/workDataUpload/" + fileName));
 		}
 		workDataInfoService.workDataUpload(fileName, request);
 		return "newWorkData.do";

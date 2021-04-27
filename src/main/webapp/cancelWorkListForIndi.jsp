@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>취소 작업 리스트 - 개인</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	var globalNum = 0;
 	function getWorkInfo(iNum, code) {
@@ -19,6 +20,18 @@
 		globalNum = iNum ;
 	}
 
+	function loadOn(){
+		<%
+		String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		%>
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+	}
 </script>
 <style>
 	#iframeToWorker {
@@ -39,7 +52,7 @@
 		overflow: scroll;
 	}
 </style>
-<body>
+<body onload="loadOn();">
 	<h1>취소 작업 목록</h1>
 	<div class="workListAll" id="workListAll">
 		<p id="workMsg"><b>조회 할 작업을 선택해주세요.</b></p>
