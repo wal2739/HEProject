@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.HEProject.he.boInfo.BOInfoVO;
 import com.HEProject.he.usersInfo.UsersInfoService;
 import com.HEProject.he.usersInfo.UsersInfoVO;
 import com.HEProject.he.workersInfo.WorkersInfoService;
@@ -29,9 +30,9 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public String login_Post(HttpSession session,UsersInfoVO vo,HttpServletRequest request) {
+	public String login_Post(HttpSession session,BOInfoVO boVO, UsersInfoVO vo,HttpServletRequest request) {
 		System.out.println("로그인 시도");
-		return usersInfoService.getUser(vo, session, request);
+		return usersInfoService.getUser(boVO, vo, session, request);
 	}
 	
 

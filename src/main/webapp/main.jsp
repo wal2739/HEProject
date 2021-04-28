@@ -11,12 +11,14 @@
 		String loginCheckData = "";
 		Object userClassData = "";
 		String checkData="";
+		String boCheckIndex = "";
 		try{
 			loginCheckData = (String)session.getAttribute("userId");
 			userClassData = session.getAttribute("userClass");
 			if(loginCheckData==null){
 				checkData="실패";
 			}else{
+				boCheckIndex = (String)session.getAttribute("boCheckIndex");
 				checkData="성공";
 			}
 		}catch(NullPointerException e){
@@ -40,13 +42,17 @@
 			var loginCheckData = null;
 		}
 		loginCheck(loginCheckData);
+
 	}
-	
+	function loadOn02() {
+		var boCheckIndex = '<%=boCheckIndex%>';
+		boIndexCheck("check");
+	}	
 </script>
 <style>
 	
 </style>
-<body onload="loadOn();">
+<body onload="loadOn();loadOn02();">
 	<h1>메인 화면</h1>
 	<%if(checkData=="실패"){}else if(checkData=="성공"){ %>
 	<%if(userClassData.equals(1)){ %><h2>개인 사용자 화면</h2><a href="RegiForIndividual.do">등록</a><br /><a href="workMainForIndi.do">작업</a><br /><a href="#">정산</a><br /><a href="etcForIndi.do">기타</a><%} %>

@@ -83,6 +83,14 @@ function loginCheck(loginCheckData) {
 		return location.href='login.jsp';
 	}
 }
+
+function boIndexCheck(boCheckData) {
+	if(boCheckData=="none"){
+		alert('사업자 정보 등록 후 사용 가능한 페이지 입니다.');
+		return location.href='main.do';
+	}
+}
+
 function loginChecknBreak(loginCheckData) {
 	if(loginCheckData==null){
 		alert('로그인 후 사용 가능한 페이지 입니다.');

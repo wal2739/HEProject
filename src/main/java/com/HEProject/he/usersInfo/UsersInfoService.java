@@ -7,10 +7,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import com.HEProject.he.boInfo.BOInfoVO;
 import com.HEProject.he.usersInfo.Impl.UsersInfoRowmapper;
 
 public interface UsersInfoService {
-	String getUser(UsersInfoVO vo,HttpSession session, HttpServletRequest request);
+	String getUser(BOInfoVO boVO, UsersInfoVO vo,HttpSession session, HttpServletRequest request);
 	
 	List<UsersInfoVO> getAllUsers(UsersInfoVO vo,HttpSession session);
 	

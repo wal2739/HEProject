@@ -9,6 +9,8 @@ import javax.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.HEProject.he.boInfo.BOInfoService;
+import com.HEProject.he.boInfo.BOInfoVO;
 import com.HEProject.he.usersInfo.SearchInfoVO;
 import com.HEProject.he.usersInfo.UsersInfoService;
 import com.HEProject.he.usersInfo.UsersInfoVO;
@@ -19,8 +21,11 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 	@Autowired
 	private UserInfoDAO dao;
 	
+	@Autowired
+	private BOInfoService boInfoService;
+	
 	@Override
-	public String getUser(UsersInfoVO vo, HttpSession session,HttpServletRequest request) {
+	public String getUser(BOInfoVO boVO, UsersInfoVO vo, HttpSession session,HttpServletRequest request) {
 		vo.setUserID(request.getParameter("userId"));
 		UsersInfoVO result = dao.getUser(vo);
 		if(result==null) {
@@ -32,6 +37,13 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 			session.setAttribute("userClass", result.getUserClass());
 			session.setAttribute("userName", result.getUserName());
 			session.setMaxInactiveInterval(-1);
+			BOInfoVO boRS = boInfoService.getBOInfo(boVO, session);
+			if(boRS==null) {
+				session.setAttribute("boCheckIndex", "none");
+			}else {
+				session.setAttribute("boCheckIndex", "check");
+			}
+			System.out.println(session.getAttribute("boCheckIndex"));
 			return "main.do";
 		}else{
 			request.setAttribute("loginST", 2);
