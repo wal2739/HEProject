@@ -3,30 +3,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
     <%
-    	List<BoardInfoVO> list = (List)request.getAttribute("list");
+    
+	    String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		
+		List<BoardInfoVO> list = null;
     	String classType = "";
-    	if(request.getAttribute("classType").equals(0)){
-    		classType = "자유 게시판";
-    	}else if(request.getAttribute("classType").equals(1)){
-    		classType = "개인 사용자 게시판";
-    	}else if(request.getAttribute("classType").equals(2)){
-    		classType = "중계 사용자 게시판";
-    	}else if(request.getAttribute("classType").equals(3)){
-    		classType = "공지 게시판";
-    	}else {
-    		classType = "에러 - classType - jsp";
-    	}
-    	int userClass = (Integer)request.getAttribute("nuserClass");
+    	int userClass = 9999;
     	String backPath = "";
-    	if(userClass==0){
-    	}else if(userClass==1){
-    		backPath = "etcForIndi.do";
-    	}else if(userClass==2){
-    		backPath = "etcForAss.do";
-    	}else {
-    		backPath = "#";
-    		System.out.println("backPathErr - jsp");
-    	}
+		if(loginCheckData!=null){
+			list = (List)request.getAttribute("list");
+			if(request.getAttribute("classType").equals(0)){
+	    		classType = "자유 게시판";
+	    	}else if(request.getAttribute("classType").equals(1)){
+	    		classType = "개인 사용자 게시판";
+	    	}else if(request.getAttribute("classType").equals(2)){
+	    		classType = "중계 사용자 게시판";
+	    	}else if(request.getAttribute("classType").equals(3)){
+	    		classType = "공지 게시판";
+	    	}else {
+	    		classType = "에러 - classType - jsp";
+	    	}
+			
+			userClass = (Integer)request.getAttribute("nuserClass");
+			if(userClass==0){
+	    	}else if(userClass==1){
+	    		backPath = "etcForIndi.do";
+	    	}else if(userClass==2){
+	    		backPath = "etcForAss.do";
+	    	}else {
+	    		backPath = "#";
+	    		System.out.println("backPathErr - jsp");
+	    	}
+		}
+    	
+    	
+    	
+    	
     %>
 <!DOCTYPE html>
 <html>
@@ -46,8 +63,13 @@
 		text-align: center;
 	}
 </style>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
+
 	function checkNotice() {
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+		
 		var typeClass = <%=request.getAttribute("classType")%>;
 		var classUser = <%=userClass%>;
 		if(typeClass==3){
@@ -65,7 +87,7 @@
 	<div>
 		
 			
-			<%if(list.size()==0){ %>
+			<%if(list==null||list.size()==0){ %>
 				<p>게시글이 없습니다.</p>
 			<%}else{%>
 			<table>

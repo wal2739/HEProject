@@ -2,13 +2,25 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-    <%List<OrderInfo_st2VO> list = (List)request.getAttribute("list"); %>
+    <%
+	    String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}	
+    	List<OrderInfo_st2VO> list = null;
+    	if(loginCheckData!=null){
+    		list = (List)request.getAttribute("list"); 
+    	}
+    %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>발주 취소</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	var preNum = 0;
 	function getAllWorkInfo(orderCode,iNum) {
@@ -31,6 +43,9 @@
 		}
 	}
 	function loadOn() {
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+		
 		var delOrderSuccess = <%=request.getAttribute("delOrderSuccess")%>;
 		if(delOrderSuccess==null){
 			
@@ -58,7 +73,7 @@
 <body onload="loadOn();">
 	<h1>발주 취소</h1>
 	<div id="allDiv" class="allDiv">
-		<%if(list.size()==0){ %>
+		<%if(list==null||list.size()==0){ %>
 		<p>현재 진행 중 인 발주 목록이 없습니다.</p>
 	<%}else{for(int i = 0 ; i <list.size(); i++){ %>
 		<p onclick="getAllWorkInfo('<%=list.get(i).getOrderCode()%>',<%=i%>);"><%=i+1 %>. 거래처 : <%=list.get(i).getClientCpName() %> | 거래처 전화번호 : <%=list.get(i).getClientPhone() %> | 현장명 : <%=list.get(i).getWorkField() %> | 현장 주소 : <%=list.get(i).getFieldAdd01() %> , <%=list.get(i).getFieldAdd02() %> | 작업자 : <%=list.get(i).getUserName() %></p><input type="button" id="delBtn<%=i %>" name="delBtn<%=i %>" disabled="disabled" onclick="delFunc('<%=list.get(i).getOrderCode() %>');" value="삭제"/><br />

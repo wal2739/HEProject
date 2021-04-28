@@ -2,13 +2,25 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-    <%List<ClientInfoVO> list = (List)request.getAttribute("cInfo"); %>
+    <%
+	    String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		List<ClientInfoVO> list = null;
+		if(loginCheckData!=null){
+			list = (List)request.getAttribute("cInfo");
+		}
+	%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>작업 등록</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	function test(code) {
 		var cliCode = document.getElementById("cliCode"+code).value;	
@@ -159,7 +171,10 @@
 			document.getElementById("rvDirect").style.display = "none";
 		}
 	}
-	
+	function loadOn() {
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+	}
 </script>
 <style>
 	table, th, tr, td{
@@ -184,11 +199,11 @@
 		display: none;
 	}
 </style>
-<body>
+<body onload="loadOn();">
 	<h1>작업 등록</h1>
 	<div class="clientList">
 		<table>
-			<%if(list.size()==0){ %>
+			<%if(list==null||list.size()==0){ %>
 				<p>거래처 정보가 없습니다.</p>
 			<%}else{%>
 			<caption></caption>

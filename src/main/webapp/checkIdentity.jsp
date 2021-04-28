@@ -1,15 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
     <%
-    	int userClass = (Integer)session.getAttribute("userClass");
+    
+	    String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		int userClass = 9999;
     	String backPath = "";
-    	if(userClass==1){
-    		backPath="etcForIndi.do";
-    	}else if(userClass==2){
-    		backPath="etcForAss.do";
-    	}else {
-    		
-    	}
+
+		if(loginCheckData!=null){
+			userClass = (Integer)session.getAttribute("userClass");
+			if(userClass==1){
+	    		backPath="etcForIndi.do";
+	    	}else if(userClass==2){
+	    		backPath="etcForAss.do";
+	    	}else {
+	    		
+	    	}
+		}
+    	
     %>
 <!DOCTYPE html>
 <html>
@@ -17,6 +29,8 @@
 <meta charset="UTF-8">
 <title>본인 확인</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
+
 <script type="text/javascript">
 	function checkPw() {
 		var pw = document.getElementById("passWord").value;
@@ -27,6 +41,9 @@
 		location.href='checkIdentityAct.do?passWord='+pw;
 	}
 	function loadOn() {
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+		
 		var pwCheck = <%=request.getAttribute("pwCheck")%>;
 		switch (pwCheck) {
 		case null:

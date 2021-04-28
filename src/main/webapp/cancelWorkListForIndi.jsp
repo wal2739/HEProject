@@ -68,6 +68,6 @@
 			<%}} %>		
 		</div>
 	</div>
-	<input type="button" value="뒤로가기" onclick="location.href='workInfoForIndi.do'"/>
+	<input type="button" value="뒤로가기" onclick="location.href='workInfoForIndi.do?uClass=indiUsrn'"/>
 </body>
 </html>

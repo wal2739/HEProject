@@ -108,6 +108,6 @@
 			<div id="orderInfo<%=i %>" class="orderInfo<%=i %>"><!-- 작업 의뢰 정보가 들어 와야 함 --></div>
 		<%}} %>
 	</div>
-	<input type="button" value="뒤로가기" onClick="location.href='workInfoForIndi.do'"/>
+	<input type="button" value="뒤로가기" onclick="location.href='workInfoForIndi.do?uClass=indiUsrn'"/>
 </body>
 </html>

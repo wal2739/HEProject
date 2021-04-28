@@ -32,7 +32,7 @@ public class WorkInfoDAO {
 	}
 	
 	List<WorkInfoVO> getAllWork(WorkInfoVO vo){
-		String sql = "select * from workInfo where ASSUSRN='" + vo.getAssUsRn() + "' and st=0 or st=1";
+		String sql = "select * from workInfo where ASSUSRN='" + vo.getAssUsRn() + "' and (st=0 or st=1)";
 		try {
 			return jdbcTemplate.query(sql, new WorkInfoRowMapper());
 		} catch (EmptyResultDataAccessException e) {

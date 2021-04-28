@@ -98,6 +98,9 @@ public class BoardInfoServiceImpl implements BoardInfoService{
 
 	@Override
 	public List<BoardInfoVO> getEachBoard(HttpServletRequest request, HttpSession session) {
+		if(request.getParameter("boardClassNum")==null) {
+			return null;
+		}
 		int boardClassNum = Integer.parseInt(request.getParameter("boardClassNum"));
 		int userClass = (Integer)session.getAttribute("userClass");
 		if(boardClassNum==0) {

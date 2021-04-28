@@ -2,9 +2,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
     <%
-    	UsersInfoVO vo = (UsersInfoVO)request.getAttribute("vo");
+	    String loginCheckData="";
+		try{
+			loginCheckData= (String)session.getAttribute("userId");
+		}catch(NullPointerException e){
+			System.err.println("비회원 아이디 에러 : "+e);
+		}
+		UsersInfoVO vo = null;
     	String[] userCell = new String[3];
-    	userCell = vo.getUserCell().split("-");
+		if(loginCheckData!=null){
+			vo = (UsersInfoVO)request.getAttribute("vo");
+			userCell = vo.getUserCell().split("-");
+		}
+    	
     %>
 <!DOCTYPE html>
 <html>
@@ -12,6 +22,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script type="text/javascript" src="/js/main.js" ></script>
 <script type="text/javascript">
 	function validate() {
 		var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;// 이메일이 적합한지 검사할 정규식
@@ -56,6 +67,10 @@
 	    document.getElementById('userCell').value = cell;
 	}
 	function loadOn() {
+		
+		var loginCheckData = <%=loginCheckData%>;
+		loginCheck(loginCheckData);
+		
 		var mdfus = <%=request.getAttribute("MDFUS")%>;
 		switch (mdfus) {
 		case null:
@@ -88,36 +103,40 @@ table, th, td {
 </style>
 <body onload="loadOn();">
 	<h1>정보 수정</h1>
-	<form action="modifyUserInfoAct.do" name="forms" id="forms" >
-		<table>
-			<tr>
-				<td>이름</td>
-				<td><input type="text" name="userName" id="userName" value="<%=vo.getUserName()%>"/></td>
-			</tr>
-			<tr>
-				<td>휴대폰 번호</td>
-				<td>
-					<input type="text" name="userCell01" id="userCell01" maxlength="3" value="<%=userCell[0]%>"/>-
-					<input type="text" name="userCell02" id="userCell02" maxlength="4" value="<%=userCell[1]%>"/>-
-					<input type="text" name="userCell03" id="userCell03" maxlength="4" value="<%=userCell[2]%>"/>
-					<input type="hidden" name="userCell" id="userCell" />
-				</td>
-			</tr>
-			<tr>
-				<td>주소(필수)</td>
-				<td><input type="text" name="userAdd01" id="userAdd01" value="<%=vo.getUserAdd01()%>"/></td>
-			</tr>
-			<tr>
-				<td>상세 주소</td>
-				<td><input type="text" name="userAdd02" id="userAdd02" value="<%=vo.getUserAdd02()%>"/></td>
-			</tr>
-			<tr>
-				<td>이메일</td>
-				<td><input type="text" name="userEmail" id="userEmail" value="<%=vo.getUserEmail()%>"/></td>
-			</tr>
-		</table>
-		<input type="submit" value="변경 완료" onclick="return validate();"/>
-		<input type="button" value="뒤로 가기" onClick="location.href='myPage.do'"/>
-	</form>
+	<%if(vo==null){ %>
+		<p>에러</p>
+	<%}else{ %>
+		<form action="modifyUserInfoAct.do" name="forms" id="forms" >
+			<table>
+				<tr>
+					<td>이름</td>
+					<td><input type="text" name="userName" id="userName" value="<%=vo.getUserName()%>"/></td>
+				</tr>
+				<tr>
+					<td>휴대폰 번호</td>
+					<td>
+						<input type="text" name="userCell01" id="userCell01" maxlength="3" value="<%=userCell[0]%>"/>-
+						<input type="text" name="userCell02" id="userCell02" maxlength="4" value="<%=userCell[1]%>"/>-
+						<input type="text" name="userCell03" id="userCell03" maxlength="4" value="<%=userCell[2]%>"/>
+						<input type="hidden" name="userCell" id="userCell" />
+					</td>
+				</tr>
+				<tr>
+					<td>주소(필수)</td>
+					<td><input type="text" name="userAdd01" id="userAdd01" value="<%=vo.getUserAdd01()%>"/></td>
+				</tr>
+				<tr>
+					<td>상세 주소</td>
+					<td><input type="text" name="userAdd02" id="userAdd02" value="<%=vo.getUserAdd02()%>"/></td>
+				</tr>
+				<tr>
+					<td>이메일</td>
+					<td><input type="text" name="userEmail" id="userEmail" value="<%=vo.getUserEmail()%>"/></td>
+				</tr>
+			</table>
+			<input type="submit" value="변경 완료" onclick="return validate();"/>
+			<input type="button" value="뒤로 가기" onClick="location.href='myPage.do'"/>
+		</form>
+	<%} %>
 </body>
 </html>
