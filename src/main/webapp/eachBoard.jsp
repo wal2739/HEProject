@@ -63,11 +63,11 @@
 		text-align: center;
 	}
 </style>
-<script type="text/javascript" src="/js/main.js" ></script>
+<script type="text/javascript" src="/js/main.js?var=1" ></script>
 <script type="text/javascript">
 
 	function checkNotice() {
-		var loginCheckData = <%=loginCheckData%>;
+		var loginCheckData = '<%=loginCheckData%>';
 		loginCheck(loginCheckData);
 		
 		var typeClass = <%=request.getAttribute("classType")%>;

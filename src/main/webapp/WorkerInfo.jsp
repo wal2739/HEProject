@@ -14,11 +14,13 @@
 		} */
 		String loginCheckData="";
     	String checkData="";
+		String boCheckIndex = "";
 		try{
 			loginCheckData= (String)session.getAttribute("usRn");
 			if(loginCheckData==null){
 				checkData="실패";
 			}else{
+				boCheckIndex = (String)session.getAttribute("boCheckIndex");
 				checkData="성공";
 			}
 			System.out.println(checkData);
@@ -32,7 +34,7 @@
 <meta charset="UTF-8">
 <title>대리작업자 등록 화면</title>
 </head>
-<script type="text/javascript" src="/js/main.js" ></script>
+<script type="text/javascript" src="/js/main.js?ver=1" ></script>
 <script type="text/javascript">
 	function validate() {
 		var chkNum = /^[0-9]+$/;
@@ -208,14 +210,21 @@
 		if(checkNum==0){
 			return location.href='login.jsp';
 		}
-		var deleteCheck = <%=request.getAttribute("deleteCheck")%>
-		if(deleteCheck==null){}
-		if(deleteCheck==0){
-			alert('대리작업자 삭제가 정상적으로 이루어지지 않았습니다. 다시 시도해주세요.');
-		}
-		if(deleteCheck==1){
-			alert('대리작업자 삭제가 완료되었습니다.');
-			location.href="WorkerInfo.do";
+		
+		var boCheckIndex = '<%=boCheckIndex%>';
+		boIndexCheck(boCheckIndex);
+		if(boCheckIndex!='none'){
+			
+			var deleteCheck = <%=request.getAttribute("deleteCheck")%>
+			if(deleteCheck==null){}
+			if(deleteCheck==0){
+				alert('대리작업자 삭제가 정상적으로 이루어지지 않았습니다. 다시 시도해주세요.');
+			}
+			if(deleteCheck==1){
+				alert('대리작업자 삭제가 완료되었습니다.');
+				location.href="WorkerInfo.do";
+			}
+			
 		}
 	}
 

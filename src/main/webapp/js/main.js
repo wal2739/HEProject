@@ -78,16 +78,9 @@ function checkDataAll(checkData01,checkData02,checkData03,checkData04,loginCheck
 	
 }
 function loginCheck(loginCheckData) {
-	if(loginCheckData==null){
+	if(loginCheckData=='null'){
 		alert('로그인 후 사용 가능한 페이지 입니다.');
 		return location.href='login.jsp';
-	}
-}
-
-function boIndexCheck(boCheckData) {
-	if(boCheckData=="none"){
-		alert('사업자 정보 등록 후 사용 가능한 페이지 입니다.');
-		return location.href='main.do';
 	}
 }
 
@@ -100,3 +93,9 @@ function loginChecknBreak(loginCheckData) {
 	}
 }
 
+function boIndexCheck(boCheckData) {
+	if(boCheckData=="none"){
+		alert('사업자 정보 등록 후 사용 가능한 페이지 입니다.');
+		return location.href='main.do';
+	}
+}

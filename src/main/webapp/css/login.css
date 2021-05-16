@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap');
+/*https://fonts.google.com/specimen/Rubik?preview.text_type=custom 폰트 참고*/
+
+
+* {margin: 0; padding: 0; box-sizing: border-box;}
+body {
+  
+  font-family: 'Rubik', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /*차후 다른 이미지로 대체예정*/
+  /*no-repeat center 뭔지모르겠음. 이미지정중앙맞춰주는느낌.. */
+  background: url("/image/login.jpg") no-repeat center;
+  /*background-sizecover; : 고 해상도에서 이미지가 작을 때에도 이미지사이즈를 자동 리사이징하여 풀스크린으로 변경 */
+  background-size: cover;
+}
+body::before {
+  content: "";
+  position: absolute; z-index: 1;
+  top: 0; right: 0; bottom: 0; left: 0;
+  /*background-color로 오퍼시티 지정*/
+  background-color: rgba(0,0,0,.7);
+}
+.login-form { position: relative; z-index: 2;}
+/*h1은 로고나 폰트로 대체예정*/
+.login-form h1 { 
+  font-size: 30px; color: #fff;
+  text-align: center;
+  margin-bottom: 60px;
+}
+/*int-area = id와 pw 입력란*/
+.int-area {width: 400px; position: relative;}
+.int-area input { margin-top: 0;
+  width: 100%;
+  padding: 20px 10px 10px;
+  /*transparent로 입력창투명*/
+  background-color: transparent;
+  /*입력창의 border제거*/
+  border: none;
+  /*입력창 하단부에 1px 라인색상지정*/
+  border-bottom: 1px solid #999;
+  font-size: 18px; color: #fff; 
+  outline: none;
+}
+/*transition: top .5s ease;로 ID PW 이펙트 줌*/
+.int-area label {
+  position: absolute; left: 10px; top: 15px;
+  font-size: 18px; color: #999;
+  transition: top .5s ease;
+}
+
+/*입력창 클릭시 ID , PW가 위로 밀려남, 이거 시발 존나신기하네*/
+.int-area input:focus + label,
+.int-area input:valid + label {
+  top: 0;
+  font-size: 13px; color:  #797979;
+}
+
+.btn-area {margin-top: 30px;}
+.btn-area button {
+  width: 100%; height: 50px;
+  background: #797979;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.signin {
+  margin-top: 20px;
+  text-align: center;
+}
+.signin a {
+  font-size: 15px; color: #fff;
+  text-decoration: none;
+}
+
+
+.caption {
+  margin-top: 20px;
+  text-align: center;
+}
+.caption a {
+  font-size: 15px; color: #fff;
+  text-decoration: none;
+}
+

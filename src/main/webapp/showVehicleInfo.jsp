@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <title>차량 등록 현황</title>
 </head>
-<script type="text/javascript" src="/js/main.js" ></script>
+<script type="text/javascript" src="/js/main.js?var=1" ></script>
 <script type="text/javascript">
 	function delCheck(rowNum) {
 		var equipNum = document.getElementById('equipNum'+rowNum).value;
@@ -42,39 +42,49 @@
 	function loadCheck() {
 		<%
 		String loginCheckData="";
+		String boCheckIndex="";
 		try{
 			loginCheckData= (String)session.getAttribute("userId");
+			boCheckIndex = (String)session.getAttribute("boCheckIndex");
 		}catch(NullPointerException e){
 			System.err.println("비회원 아이디 에러 : "+e);
 		}
 		%>
-		var loginCheckData = <%=loginCheckData%>;
+		var loginCheckData = '<%=loginCheckData%>';
 		loginCheck(loginCheckData);
 		
-		var newVehicleCheck = <%=request.getAttribute("newVehicleCheck")%>;
-		var modVehicleCheck = <%=request.getAttribute("modVehicleCheck")%>;
-		var delVehicleCheck = <%=request.getAttribute("delVehicleCheck")%>;
-		if(newVehicleCheck==null){}
-		if(newVehicleCheck==1){
-			alert('차량정보가 정상적으로 등록되었습니다.');
+		var boCheckIndex = '<%=boCheckIndex%>';
+		boIndexCheck(boCheckIndex);
+		if(boCheckIndex!='none'){
+			
+			var newVehicleCheck = <%=request.getAttribute("newVehicleCheck")%>;
+			var modVehicleCheck = <%=request.getAttribute("modVehicleCheck")%>;
+			var delVehicleCheck = <%=request.getAttribute("delVehicleCheck")%>;
+			if(newVehicleCheck==null){}
+			if(newVehicleCheck==1){
+				alert('차량정보가 정상적으로 등록되었습니다.');
+			}
+			if(newVehicleCheck==0){
+				alert('차량정보가 정상적으로 등록되지 않았습니다. 다시 시도 해주세요.');
+			}
+			if(modVehicleCheck==null){}
+			if(modVehicleCheck==1){
+				alert('차량정보가 정상적으로 수정 되었습니다.');
+			}
+			if(modVehicleCheck==0){
+				alert('차량정보가 정상적으로 수정되지 않았습니다. 다시 시도 해주세요.');
+			}
+			if(delVehicleCheck==null){}
+			if(delVehicleCheck==1){
+				alert('차량정보가 정상적으로 삭제 되었습니다.');
+			}
+			if(delVehicleCheck==0){
+				alert('차량정보가 정상적으로 삭제 되지 않았습니다. 다시 시도 해주세요.');
+			}
+			location.href="showVehicleInfo.do";
+			
 		}
-		if(newVehicleCheck==0){
-			alert('차량정보가 정상적으로 등록되지 않았습니다. 다시 시도 해주세요.');
-		}
-		if(modVehicleCheck==null){}
-		if(modVehicleCheck==1){
-			alert('차량정보가 정상적으로 수정 되었습니다.');
-		}
-		if(modVehicleCheck==0){
-			alert('차량정보가 정상적으로 수정되지 않았습니다. 다시 시도 해주세요.');
-		}
-		if(delVehicleCheck==null){}
-		if(delVehicleCheck==1){
-			alert('차량정보가 정상적으로 삭제 되었습니다.');
-		}
-		if(delVehicleCheck==0){
-			alert('차량정보가 정상적으로 삭제 되지 않았습니다. 다시 시도 해주세요.');
-		}
+		
 		
 		
 	}
