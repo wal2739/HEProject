@@ -41,7 +41,7 @@
 		location.href='checkIdentityAct.do?passWord='+pw;
 	}
 	function loadOn() {
-		var loginCheckData = <%=loginCheckData%>;
+		var loginCheckData = '<%=loginCheckData%>';
 		loginCheck(loginCheckData);
 		
 		var pwCheck = <%=request.getAttribute("pwCheck")%>;

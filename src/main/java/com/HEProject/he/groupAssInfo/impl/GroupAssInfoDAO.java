@@ -46,7 +46,7 @@ public class GroupAssInfoDAO {
 	}
 	
 	public List<BOInfoVO> getAllAssInfo(GroupAssInfoVO vo) {
-		String sql = "select * from boInfo where usrn in (select usrn from usersinfo where userclass=2 or userclass=3) and usrn not in (select assusrn from groupassinfo where grusrn='" + vo.getGrUsRn() + "' or st=4 and st BETWEEN 0 and 1)";
+		String sql = "select * from boInfo where usrn not in (select assusrn from groupassinfo where grusrn='" + vo.getGrUsRn() + "' and st!=3) and usrn in (select usrn from usersinfo where userclass=2 or userclass=3)";
 		try {
 			return jdbcTemplate.query(sql, new BOInfoRowMapper());
 		}catch (NullPointerException e) {

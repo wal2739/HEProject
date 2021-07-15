@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>메인 화면</title>
 <%
+
 	String loginCheckData = "";
 	Object userClassData = "";
 	String checkData = "";
@@ -116,8 +117,9 @@
 </head>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript" src="/js/main.js?ver=123"></script>
-<link rel="stylesheet" href="/css/main.css">
+<script type="text/javascript" src="/js/main.js?ver=12"></script>
+<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="/css/main.css?ver=13">
 <script type="text/javascript">
 	function loadOn() {
 		var checkData = '<%=checkData%>';
@@ -126,7 +128,7 @@
 		}else if(checkData=='실패'){
 			var loginCheckData = null;
 		}
-		loginCheck(loginCheckData);
+		loginChecknBreak(loginCheckData);
 
 	}
 	function loadOn02() {
@@ -173,16 +175,13 @@
 					<li><a href="<%=dropMenuLink[15]%>"><%=dropMenuInfo[15] %></a></li>
 
 				</ul></li>
-			<li><a href="logout">로그아웃</a></li>
-			<li><a href="modify">내정보</a></li>
+			<li><a href="logOut.do">로그아웃</a></li>
+			<li><a href="checkIdentity.jsp">내정보</a></li>
 		</ul>
 		</ul>
 	</nav>
 	<main> <!-- 4분할 or 3분할 or 2분할 필요 , 좌측 상단에 로고 영역 표시 필요--> 내용이 들어감
 	</main>
-	<footer>
-		<p>사업자 정보 혹은 콜센터 등등의 정보가 들어감</p>
-	</footer>
 	<%-- <a href="#">메세지 페이지로</a> --%>
 
 </body>

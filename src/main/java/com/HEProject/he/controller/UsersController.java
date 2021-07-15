@@ -29,13 +29,18 @@ public class UsersController {
 		return "login.jsp";
 	}
 	
+
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public String login_Post(HttpSession session,BOInfoVO boVO, UsersInfoVO vo,HttpServletRequest request) {
 		System.out.println("로그인 시도");
 		return usersInfoService.getUser(boVO, vo, session, request);
 	}
 	
-
+	@RequestMapping(value = "/logOut.do")
+	public String logOut(HttpSession session,UsersInfoVO vo,HttpServletRequest request) {
+		session.invalidate();
+		return "login.jsp";
+	}
 	
 	@RequestMapping("newUser.do")
 	public String newUser(HttpSession session,UsersInfoVO vo,HttpServletRequest request) {

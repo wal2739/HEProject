@@ -54,7 +54,7 @@ public class VehicleServiceImpl implements VehicleService{
 			return "showVehicleInfo.do";
 		}else {
 			request.setAttribute("newVehicleCheck", 2);
-			return "vehicleInfo.do";
+			return "showVehicleInfo.do";
 		}
 	}
 

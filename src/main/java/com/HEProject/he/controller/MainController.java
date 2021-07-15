@@ -88,7 +88,7 @@ public class MainController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "modifyBO.do", method = RequestMethod.GET)
+	@RequestMapping(value = "modifyBO.do")
 	public ModelAndView modifyBO_GET(ModelAndView mav,BOInfoVO vo, HttpSession session, HttpServletRequest request,UsersInfoVO vo1) {
 		System.out.println("사업자 수정 시도");
 		mav.addObject("userInfo",usersInfoService.getUser(vo1, session));
@@ -97,7 +97,7 @@ public class MainController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "modifyBO.do", method = RequestMethod.POST)
+	@RequestMapping(value = "modifyBOAct.do")
 	public ModelAndView modifyBO_POST(ModelAndView mav,BOInfoVO vo, HttpSession session, HttpServletRequest request,UsersInfoVO vo1) {
 		System.out.println("사업자 수정");
 		mav.setViewName(boInfoService.modifyBO(vo, session, request));
@@ -179,7 +179,8 @@ public class MainController {
 	@RequestMapping(value = "showMyGroup.do")
 	public ModelAndView showMyGroup(ModelAndView mav,GroupAssInfoVO vo, HttpSession session,HttpServletRequest request) {
 		System.out.println("중계/협회 현황");
-		mav.addObject("list",groupAssInfoService.getAllGroupInfo(vo, session));
+		mav.addObject("nowAsslist",groupAssInfoService.getAllGroupInfo(vo, session));
+		mav.addObject("newAsslist",groupAssInfoService.getAllAssInfo(vo, session));
 		mav.setViewName("showMyGroup.jsp");
 		return mav;
 	}
@@ -211,15 +212,15 @@ public class MainController {
 	public ModelAndView delGroupAction(ModelAndView mav,GroupAssInfoVO vo,HttpSession session, HttpServletRequest request) {
 		System.out.println("그룹 삭제");
 		groupAssInfoService.deleteGroup(vo, session, request);
-		mav.setViewName("delGroup.do");
+		mav.setViewName("showMyGroup.do");
 		return mav;
 	}
 		
 	@RequestMapping(value = "showAssList.do")
 	public ModelAndView showAssList(ModelAndView mav,GroupAssInfoVO vo, HttpSession session,HttpServletRequest request) {
 		System.out.println("중계/협회 등록");
-		mav.addObject("list",groupAssInfoService.getAllAssInfo(vo, session));
-		mav.setViewName("showAssList.jsp");
+		mav.addObject("newAsslist",groupAssInfoService.getAllAssInfo(vo, session));
+		mav.setViewName("showMyGroup.jsp");
 		return mav;
 	}
 	@RequestMapping(value = "newAci.do")

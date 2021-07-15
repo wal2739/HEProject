@@ -11,7 +11,11 @@
 <meta charset="UTF-8">
 <title>차량 등록 현황</title>
 </head>
-<script type="text/javascript" src="/js/main.js?var=1" ></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js" ></script>
+<link rel="stylesheet" href="/css/main.css?ver=15">
+<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css'
+	rel='stylesheet' type='text/css'>
 <script type="text/javascript">
 	function delCheck(rowNum) {
 		var equipNum = document.getElementById('equipNum'+rowNum).value;
@@ -60,28 +64,33 @@
 			var newVehicleCheck = <%=request.getAttribute("newVehicleCheck")%>;
 			var modVehicleCheck = <%=request.getAttribute("modVehicleCheck")%>;
 			var delVehicleCheck = <%=request.getAttribute("delVehicleCheck")%>;
-			if(newVehicleCheck==null){}
-			if(newVehicleCheck==1){
-				alert('차량정보가 정상적으로 등록되었습니다.');
+			if(newVehicleCheck==null&&modVehicleCheck==null&&delVehicleCheck==null){
+				console.log('null');
+			}else {
+				if(newVehicleCheck==1){
+					alert('차량정보가 정상적으로 등록되었습니다.');
+				}
+				if(newVehicleCheck==0){
+					alert('차량정보가 정상적으로 등록되지 않았습니다. 다시 시도 해주세요.');
+				}
+				if(newVehicleCheck==2){
+					alert('이미 등록된 차량 번호입니다. 다시 등록해주세요.')
+				}
+				if(modVehicleCheck==1){
+					alert('차량정보가 정상적으로 수정 되었습니다.');
+				}
+				if(modVehicleCheck==0){
+					alert('차량정보가 정상적으로 수정되지 않았습니다. 다시 시도 해주세요.');
+				}
+				if(delVehicleCheck==1){
+					alert('차량정보가 정상적으로 삭제 되었습니다.');
+				}
+				if(delVehicleCheck==0){
+					alert('차량정보가 정상적으로 삭제 되지 않았습니다. 다시 시도 해주세요.');
+				}
+				location.href="showVehicleInfo.do";
 			}
-			if(newVehicleCheck==0){
-				alert('차량정보가 정상적으로 등록되지 않았습니다. 다시 시도 해주세요.');
-			}
-			if(modVehicleCheck==null){}
-			if(modVehicleCheck==1){
-				alert('차량정보가 정상적으로 수정 되었습니다.');
-			}
-			if(modVehicleCheck==0){
-				alert('차량정보가 정상적으로 수정되지 않았습니다. 다시 시도 해주세요.');
-			}
-			if(delVehicleCheck==null){}
-			if(delVehicleCheck==1){
-				alert('차량정보가 정상적으로 삭제 되었습니다.');
-			}
-			if(delVehicleCheck==0){
-				alert('차량정보가 정상적으로 삭제 되지 않았습니다. 다시 시도 해주세요.');
-			}
-			location.href="showVehicleInfo.do";
+			
 			
 		}
 		
@@ -90,68 +99,391 @@
 	}
 </script>
 <style>
-table{
-	padding: 10px;
-	border: 
+.mainDiv{
+  width: 100%;
+  height: 100%;
 }
-tr, td {
-	border: black solid 1px;
-	border-bottom: black solid 2px;
-	padding: 2px;
+
+.div1{
+  border-bottom: 0.5px solid #d7d7d7;
+  height: 70px;
+  width: 100%;
+  display: inline-block;
+}
+.div1_textArea{
+  padding-left: 100px;
+  padding-top: 10px;
+  margin-left: 10%;
+}
+.div2{
+  display: inline-block;
+  width: 100%;
+  height: 700px;  
+}
+.div2_1 {
+  width: 80%;
+  height: 30%;
+  overflow: hidden;
+  margin : 0 auto 0 auto;
+}
+.div2_1_1 {
+  width: 100%;
+  height: 50px;  
+}
+#div2_1_1_h2 {
+  display: inline-block;
+  margin : 10px;
+}
+.div2_1_2 {
+  width: 100%;
+  height: calc(100% - 50px);
+}
+#inputTB {
+  width: 100%;
+  height: 80%;
+	border: 0.5px solid #d7d7d7;
+	background: white;
+}
+#inputTB td,#inputTB th{
+  padding: 0 5% 0 5%;
+}
+#inputTB th {
+	background: #f7f7f5;
+	border: 0.5px solid #d7d7d7;
+  width: 200px;
+}
+
+#inputTB td{
+  width: 300px;
+	align: center;
+	border: 0.5px solid #d7d7d7;
+}
+.div2_2 {
+  width: 80%;
+  height: 70%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin : 0 auto 0 auto;
+  border-top: 0.5px solid black;
+}
+.div2_2_1 {
+  width: 100%;
+  height: 100%;
+}
+.div2_2_2 {
+  width: 100%;
+  height: calc(100% - 50px);
+  padding-left: 3px;
+  padding-top: 5px;
+  
+}
+
+.div3{
+  display: inline-block;
+  width: 100%;
+  height: 200px;
+
+}
+
+#workerInfoTB {
+  width: 100%;
+  height : calc(100%-5px);
+  	border: 0.5px solid #d7d7d7;
+  	background: white;
+  	
+  
+}
+
+#workerInfoTB th,#workerInfoTB td {
+  display: inline-block;
+  height: 30px;
+  width: calc(100%/9.22);
+  font-size: 12.5px;
+  text-align: center;
+  
+}
+
+#workerInfoTB td {
+	align: center;
+	border: 0.5px solid #d7d7d7;
+}
+
+#workerInfoTB th {
+	background: #f7f7f5;
+	border: 0.5px solid #d7d7d7;
+}
+.btn {
+	width: 120px;
+	height: 30px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 2.5px;
+	font-weight: 500;
+	color: #000;
+	background-color: #fff;
+	border: none;
+	border-radius: 45px;
+	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease 0s;
+	cursor: pointer;
+	outline: none;
+  margin-left: 10px;
+  margin-top: 15px;
+}
+
+.btn:hover {
+	background-color: #2EE59D;
+	box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+	color: #fff;
+	transform: translateY(-7px);
+}
+
+.btnDiv {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+p {
+	color: red;
+	font-size: 7px;
 }
 </style>
-<body onload="loadCheck();">
-	<h1>차량 등록 현황</h1>
-	<input type="button" value="차량등록" onClick="location.href='vehicleInfo.do'"/>
-	<input type="button" value="뒤로가기" onClick="location.href='RegiForIndividual.do'"/>
-	<div>
-	<hr />
-	<%if(list==null){ %>
-	<%}else {if(list.size()==0){ %>
-			<p>현재 등록된 차량이 없습니다.</p>
-		<%}else {for(int i = 0 ; i < list.size(); i++){ %>
-			<table>
-				<tr>
-					<td>차량번호</td>
-					<td>
-						<input type="hidden" id="equipNum<%=i %>" value="<%=list.get(i).getEquipNum() %>"/><%=list.get(i).getEquipNum() %>
-					</td>
-				</tr>
-				<tr>
-					<td>차량종류</td>
-					<td><%=list.get(i).getEquipType() %></td>
-				</tr>
-				<tr>
-					<td>상세분류</td>
-					<td><%=list.get(i).getEquipClass() %></td>
-				</tr>
-				<tr>
-					<td>차량옵션</td>
-					<td><%=list.get(i).getEquipOption() %></td>
-				</tr>
-				<tr>
-					<td>차량등록일</td>
-					<td><%=list.get(i).getEquipRD() %></td>
-				</tr>
-				<tr>
-					<td>차량검사일</td>
-					<td><%=list.get(i).getEquipID() %></td>
-				</tr>
-				<tr>
-					<td>수정</td>
-					<td><input type="button" value="수정" onClick="modCheck(<%=i%>);"/></td>
-				</tr>
-				<tr>
-					<td>삭제</td>
-					<td><input type="button" value="삭제" onClick="delCheck(<%=i%>);"/></td>
-				</tr>
-			</table>
-			<hr />
-		<%}}
-		}%>
-	</div>
-	<hr />
-	
+<%
+	Object userClassData = session.getAttribute("userClass");
+	String menuInfo[] = new String[4];
+	String dropMenuInfo[] = new String[16];
+	String dropMenuLink[] = new String[16];
+	try {
+		menuInfo[1] = "작업";
+		menuInfo[2] = "정산";
+		menuInfo[3] = "기타";
+		if (userClassData.equals(0)) {
+		} else if (userClassData.equals(1)) {
+			menuInfo[0] = "등록";
+			dropMenuInfo[0] = "사업자 정보";
+			dropMenuInfo[1] = "대리 작업자";
+			dropMenuInfo[2] = "차량 정보";
+			dropMenuInfo[3] = "그룹 정보";
+			dropMenuInfo[4] = "작업 목록";
+			dropMenuInfo[5] = "증빙 자료";
+			dropMenuInfo[6] = "작업 조회";
+			dropMenuInfo[7] = "현황/그래프";
+			dropMenuInfo[8] = "정산 조회";
+			dropMenuInfo[9] = "자료 조회";
+			dropMenuInfo[10] = "재발송";
+			dropMenuInfo[11] = "#";
+			dropMenuInfo[12] = "그룹 공지";
+			dropMenuInfo[13] = "개인 사용자 전용";
+			dropMenuInfo[14] = "자유 게시판";
+			dropMenuInfo[15] = "공지 사항";
+			//////////
+			dropMenuLink[0] = "showBO.do";
+			dropMenuLink[1] = "WorkerInfo.do";
+			dropMenuLink[2] = "showVehicleInfo.do";
+			dropMenuLink[3] = "showMyGroup.do";
+			dropMenuLink[4] = "workInfoForIndi.do?uClass=indiUsrn";
+			dropMenuLink[5] = "workData.do";
+			dropMenuLink[6] = "#";
+			dropMenuLink[7] = "#";
+			dropMenuLink[8] = "#";
+			dropMenuLink[9] = "#";
+			dropMenuLink[10] = "#";
+			dropMenuLink[11] = "#";
+			dropMenuLink[12] = "#";
+			dropMenuLink[13] = "eachBoard.do?boardClassNum=1";
+			dropMenuLink[14] = "eachBoard.do?boardClassNum=0";
+			dropMenuLink[15] = "eachBoard.do?boardClassNum=3";
+		} else if (userClassData.equals(2)) {
+			menuInfo[0] = "설정";
+			dropMenuInfo[0] = "사업자 정보";
+			dropMenuInfo[1] = "회원 관리";
+			dropMenuInfo[2] = "거래처 관리";
+			dropMenuInfo[3] = "#";
+			dropMenuInfo[4] = "작업 관리";
+			dropMenuInfo[5] = "작업 발주";
+			dropMenuInfo[6] = "발주 현황";
+			dropMenuInfo[7] = "완료 작업";
+			dropMenuInfo[8] = "정산 처리/통보";
+			dropMenuInfo[9] = "자료 조회";
+			dropMenuInfo[10] = "자료 요청";
+			dropMenuInfo[11] = "#";
+			dropMenuInfo[12] = "그룹 공지";
+			dropMenuInfo[13] = "중계 사용자 전용";
+			dropMenuInfo[14] = "자유 게시판";
+			dropMenuInfo[15] = "공지 사항";
+			//////////
+			dropMenuLink[0] = "showBO.do";
+			dropMenuLink[1] = "showGrouper.do";
+			dropMenuLink[2] = "showClient.do";
+			dropMenuLink[3] = "#";
+			dropMenuLink[4] = "workInfo.do";
+			dropMenuLink[5] = "workOrderInfo.do";
+			dropMenuLink[6] = "#";
+			dropMenuLink[7] = "#";
+			dropMenuLink[8] = "#";
+			dropMenuLink[9] = "#";
+			dropMenuLink[10] = "#";
+			dropMenuLink[11] = "#";
+			dropMenuLink[12] = "#";
+			dropMenuLink[13] = "eachBoard.do?boardClassNum=2";
+			dropMenuLink[14] = "eachBoard.do?boardClassNum=0";
+			dropMenuLink[15] = "eachBoard.do?boardClassNum=3";
+		} else if (userClassData.equals(3)) {
 
+		}
+	} catch (NullPointerException e) {
+		userClassData = "0";
+		System.err.println("비회원 아이디 에러 : " + e);
+	}
+%>
+<body onload="loadCheck();">
+	<nav class="nav-area">
+		<ul>
+			<li><a href="main.do">Home</a></li>
+			<li><a href="#">About</a></li>
+			<li><a href="#"><%=menuInfo[0]%></a>
+				<ul>
+					<li><a href="<%=dropMenuLink[0]%>"><%=dropMenuInfo[0]%></a></li>
+					<li><a href="<%=dropMenuLink[1]%>"><%=dropMenuInfo[1]%></a></li>
+					<li><a href="<%=dropMenuLink[2]%>"><%=dropMenuInfo[2]%></a></li>
+					<li><a href="<%=dropMenuLink[3]%>"><%=dropMenuInfo[3]%></a></li>
+
+				</ul></li>
+			<li><a href="#"><%=menuInfo[1]%></a>
+				<ul>
+					<li><a href="<%=dropMenuLink[4]%>"><%=dropMenuInfo[4]%></a></li>
+					<li><a href="<%=dropMenuLink[5]%>"><%=dropMenuInfo[5]%></a></li>
+					<li><a href="<%=dropMenuLink[6]%>"><%=dropMenuInfo[6]%></a></li>
+					<li><a href="<%=dropMenuLink[7]%>"><%=dropMenuInfo[7]%></a></li>
+
+				</ul></li>
+			<li><a href="#"><%=menuInfo[2]%></a>
+				<ul>
+					<li><a href="<%=dropMenuLink[8]%>"><%=dropMenuInfo[8]%></a></li>
+					<li><a href="<%=dropMenuLink[9]%>"><%=dropMenuInfo[9]%></a></li>
+					<li><a href="<%=dropMenuLink[10]%>"><%=dropMenuInfo[10]%></a></li>
+					<li><a href="<%=dropMenuLink[11]%>"><%=dropMenuInfo[11]%></a></li>
+
+				</ul></li>
+			<li><a href="#"><%=menuInfo[3]%></a>
+				<ul>
+					<li><a href="<%=dropMenuLink[12]%>"><%=dropMenuInfo[12]%></a></li>
+					<li><a href="<%=dropMenuLink[13]%>"><%=dropMenuInfo[13]%></a></li>
+					<li><a href="<%=dropMenuLink[14]%>"><%=dropMenuInfo[14]%></a></li>
+					<li><a href="<%=dropMenuLink[15]%>"><%=dropMenuInfo[15]%></a></li>
+
+				</ul></li>
+			<li><a href="logOut.do">로그아웃</a></li>
+			<li><a href="checkIdentity.jsp">내정보</a></li>
+		</ul>
+	</nav>
+<main>
+    <div class="mainDiv">
+      <div class="div1">
+        <div class="div1_textArea"><h2>차량 등록/삭제</h2></div>
+      </div>
+      <div class="div2">
+        <div class="div2_1">
+          <div class="div2_1_1">
+            <h2 id="div2_1_1_h2">차량 등록</h2>
+          </div>
+          <div class="div2_1_2">
+          <form action="newVehicle.do" name="forms" id="forms" onsubmit="checkAll();">
+            <table id="inputTB">
+              <tr>
+	 			<th>차량번호</th>
+	 			<td>
+	 				<input type="text" name="EquipNum" id="EquipNum" maxlength="8"/>
+	 			</td>
+	 			<th>차량 종류</th>
+	 			<td>
+	 				<input type="text" readonly="readonly" name="EquipType" id="EquipType" required="required"/>
+	 				<input type="button" value="차종검색" onclick="EquipType01();"/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<th>상세 분류</th>
+	 			<td>
+	 				<input type="text" readonly="readonly" name="EquipClass" id="EquipClass" required="required"/>
+	 				<input type="button" id="EquipClassBtn" value="분류검색" onclick="EquipClass01();" />
+	 			</td>
+	 			<th>차량 옵션</th>
+	 			<td>
+	 				<input type="text" readonly="readonly" name="EquipOption" id="EquipOption"/>
+	 				<input type="button" id="EquipOptionBtn" value="옵션검색" onclick="EquipOption01();"/>
+	 			</td>
+	 		</tr>
+
+	 		<tr>
+	 			<th>차량 등록일</th>
+	 			<td>
+	 				<input type="date" name="EquipRD01" id="EquipRD01" placeholder="클릭하면 달력이 생성됩니다."/>
+	 				<!-- <script>
+				        $(function () {
+				            $("#EquipRD01").datepicker();
+				        });
+				    </script> -->
+	 			</td>
+	 			<th>차량 검사일</th>
+	 			<td>
+		 			<input type="date" id="EquipID01" name="EquipID01" placeholder="클릭하면 달력이 생성됩니다." />
+		 			<!-- <script>
+				        $(function () {
+				            $("#EquipID01").datepicker();
+				        });
+				    </script>	 -->
+			    </td>
+	 		</tr>
+
+            </table>
+            <div class="btnDiv">
+              <input type="submit" class="btn" value="등록" />
+            </div>
+            </form>
+          </div>
+          
+        </div>
+        <div class="div2_2">
+          <div class="div2_2_1">
+            <table id="workerInfoTB">
+              <tr>
+                <th></th>
+                <th>차량번호</th>
+                <th>차량종류</th>
+                <th>상세분류</th>
+                <th>차량옵션</th>
+                <th>차량등록일</th>
+                <th>차량검사일</th>
+                <th>미구현(접속가능)</th>
+                <th></th>
+              </tr>
+            <%if(list==null){ %>
+			<%}else {if(list.size()==0){ %>
+			<%}else {for(int i = 0 ; i < list.size(); i++){ %>
+			<tr>
+				<td><b><%=i+1 %></b></td>
+				<td>
+					<input type="hidden" id="equipNum<%=i %>" value="<%=list.get(i).getEquipNum() %>"/><%=list.get(i).getEquipNum() %>
+				</td>
+				<td><%=list.get(i).getEquipType() %></td>
+				<td><%=list.get(i).getEquipClass() %></td>
+				<td><%=list.get(i).getEquipOption() %></td>
+				<td><%=list.get(i).getEquipRD() %></td>
+				<td><%=list.get(i).getEquipID() %></td>
+				<td><input type="button" value="수정" onClick="modCheck(<%=i%>);"/></td>
+				<td><input type="button" value="삭제" onClick="delCheck(<%=i%>);"/></td>
+			</tr>
+			<%}}}%>
+            </table>
+          </div>
+          
+        </div>
+      </div>
+      <div class="div3">
+      </div>
+    </div>
+  </main>
 </body>
 </html>

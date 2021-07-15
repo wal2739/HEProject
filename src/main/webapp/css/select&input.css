@@ -1,0 +1,203 @@
+body {
+  font-family: 'Rubik', sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+a {
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.nav-area ul {float:right;}
+
+.nav-area {
+  background: #262626;
+}
+
+
+.nav-area:after {
+  content: '';
+  clear: both;
+  display: block;
+}
+
+.nav-area ul{
+  list-style: none;
+  margin: 0;
+
+}
+
+.nav-area > ul > li {
+  float: left;
+  position: relative;
+}
+
+.nav-area ul li a {
+  text-decoration: none;
+  color: #fff;
+  padding: 15px 20px;
+  display: block;
+
+}
+
+.nav-area ul li:hover a {
+  background: #34495a;
+}
+
+.nav-area ul ul {
+  position: absolute;
+  padding: 0;
+  min-width: 160px;
+  display: none;
+  top: 100%;
+  left: 0;
+}
+
+.nav-area ul li:hover > ul {
+  display: block;
+}
+
+.nav-area ul ul li:hover a {
+  background: #262626;
+
+}
+
+.nav-area ul ul li {
+  position: relative;
+}
+
+.nav-area ul ul ul {
+  top: 0;
+  left: 100%;
+}
+
+footer {
+  position: absolute;
+
+  bottom: -15px;
+  width: 100%;
+  padding: 15px 0;
+  text-align: center;
+  background-color: #262626;
+  color: #fff;
+  
+}
+
+main {
+  background-color: black;
+  width: 100%;
+  height: 100%;
+}
+
+/* 조회폼_기본 */
+
+.mainDiv{
+  width: 100%;
+  height: 100%;
+  background-color: rgb(56, 56, 56);
+}
+
+.div1{
+  background-color: antiquewhite;
+  height: 70px;
+  width: 100%;
+  display: inline-block;
+}
+.div1_textArea{
+  padding-left: 100px;
+  padding-top: 10px;
+  margin-left: 10%;
+}
+.div2{
+  display: inline-block;
+  width: 100%;
+  height: 700px;
+  background-color: red;
+  
+}
+.div2_1 {
+  width: 80%;
+  height: 30%;
+  overflow: hidden;
+  margin : 0 auto 0 auto;
+  background-color: rgb(155, 80, 80);
+}
+.div2_1_1 {
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  
+}
+#div2_1_1_h2 {
+  display: inline-block;
+  margin : 10px;
+}
+.div2_1_2 {
+  width: 100%;
+  height: calc(100% - 50px);
+  background-color: rgb(136, 117, 117);
+}
+#inputTB {
+  width: 100%;
+  height: 80%;
+  border: 1px black solid;
+}
+#inputTB td,#inputTB th{
+  border: 1px solid black;
+  padding: 0 5% 0 5%;
+}
+
+#inputTB td{
+  width: 300px;
+
+}
+.div2_2 {
+  width: 80%;
+  height: 70%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin : 0 auto 0 auto;
+  background-color: pink;
+}
+.div2_2_1 {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(136, 117, 117);
+}
+.div2_2_2 {
+  width: 100%;
+  height: calc(100% - 50px);
+  background-color: rgb(136, 117, 117);
+}
+
+.div3{
+  display: inline-block;
+  width: 100%;
+  height: 200px;
+  background-color: blue;
+
+}
+
+#workerInfoTB {
+  margin-left: 10px;
+  width: 100%;
+}
+
+#workerInfoTB th,#workerInfoTB td {
+  display: inline-block;
+  height: 30px;
+  width: calc(100%/9.4);
+  font-size: 12.5px;
+  text-align: center;
+}
+
+#workerInfoTB th {
+  background-color: white;
+}
+

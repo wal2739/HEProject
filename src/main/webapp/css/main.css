@@ -1,8 +1,15 @@
+* { 
+	font-family: 'Spoqa Han Sans Neo', 'sans-serif'; 
+	
+}
+
+
 body {
   font-family: 'Rubik', sans-serif;
   margin: 0;
   padding: 0;
-  background: url("/image/back.jpg");
+/*   background: url("/image/back.jpg");*/
+  background-color : white;
   -webkit-background-size: cover;
   background-size: cover;
   background-position: center center;
@@ -78,7 +85,7 @@ a {
   left: 100%;
 }
 
-footer {
+/* footer {
   position: absolute;
 
   bottom: -15px;
@@ -88,9 +95,10 @@ footer {
   background-color: #262626;
   color: #fff;
   
-}
+} */
 
 main {
-  font-size: 100px;
-  color: #fff;
-}
+	width : 100%;
+	height : 100%;
+ 	background-color: #faf3f3;
+ }

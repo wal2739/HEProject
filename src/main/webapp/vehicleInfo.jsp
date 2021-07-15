@@ -29,9 +29,10 @@
 	}
 </script>
 </head>
+
 <body onload="loadOn();">
-	<h1>차량 등록 화면</h1>
-	<form action="newVehicle.do" name="forms" id="forms" onsubmit="checkAll();">
+		
+		<form action="newVehicle.do" name="forms" id="forms" onsubmit="checkAll();">
 	<hr />
 		<table>
 	 		<tr>

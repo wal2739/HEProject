@@ -100,16 +100,15 @@ public class BOInfoServiceImpl implements BOInfoService{
 			if(check==0) {
 				System.out.println("정상적으로 처리되지 않았습니다. [사업자수정]");
 				request.setAttribute("boCheck", 0);
-				return "newBO.do";
 			}else if(check==1){
 				request.setAttribute("boCheck", 1);
-				return "newBO.do";
 			}else {
 				System.out.println("확인되지 않은 요청 에러 - [사업자수정]");
 				request.setAttribute("boCheck", 3);
-				return "newBO.do";
 			}
 		}
+		return "modifyBO.do";
+
 	}
 
 	@Override

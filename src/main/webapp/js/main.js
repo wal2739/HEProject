@@ -87,9 +87,7 @@ function loginCheck(loginCheckData) {
 function loginChecknBreak(loginCheckData) {
 	if(loginCheckData==null){
 		alert('로그인 후 사용 가능한 페이지 입니다.');
-		return 0;
-	}else{
-		return 1;
+		return location.href='login.jsp';
 	}
 }
 

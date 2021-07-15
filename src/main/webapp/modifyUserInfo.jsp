@@ -68,7 +68,7 @@
 	}
 	function loadOn() {
 		
-		var loginCheckData = <%=loginCheckData%>;
+		var loginCheckData = '<%=loginCheckData%>';
 		loginCheck(loginCheckData);
 		
 		var mdfus = <%=request.getAttribute("MDFUS")%>;
